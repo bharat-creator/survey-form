@@ -1,0 +1,76 @@
+<div class="container mt-3">
+  <h2 class="text-center">Survey</h2>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs d-flex text-center">
+    <li class="nav-item flex-fill">
+      <a class="nav-link active" data-toggle="tab" href="#home">To Do's</a>
+    </li>
+    <li class="nav-item flex-fill">
+      <a class="nav-link" data-toggle="tab" href="#menu1">Continues</a>
+    </li>
+    <li class="nav-item flex-fill">
+      <a class="nav-link" data-toggle="tab" href="#menu2">Pending</a>
+    </li>
+    <li class="nav-item flex-fill">
+      <a class="nav-link" data-toggle="tab" href="#menu3">Completed</a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div id="home" class="container tab-pane active">
+      <div class="row" style="margin-top:10px; border: 1px solid grey; border-radius: 15px;"> 
+        <div class="col-sm-11" style="padding:10px">
+          <p style="margin-bottom: 5px">Society Name</p>
+          <p style="margin-bottom: 5px">Society Address</p>
+          <div class="row"> 
+            <div class="col-4">Time</div>
+            <div class="col-4">Contact</div>
+            <div class="col-4">Mobile</div>
+          </div>
+        </div>  
+        <div class="col-sm-1 d-flex justify-content-center" style="border-bottom-right-radius: 15px; border-top-right-radius: 15px; background: red; align-items: center;">
+          Start
+        </div>
+      </div>
+      <div class="row" style="margin-top:10px; border: 1px solid grey; border-radius: 15px;"> 
+          <div class="col-sm-11" style="padding:10px">
+            <p style="margin-bottom: 5px">Society Name</p>
+            <p style="margin-bottom: 5px">Society Address</p>
+            <div class="row"> 
+              <div class="col-4">Time</div>
+              <div class="col-4">Contact</div>
+              <div class="col-4">Mobile</div>
+            </div>
+          </div> 
+           
+          <div (click)="startSurvey()"class="col-sm-1 d-flex justify-content-center" style="border-bottom-right-radius: 15px; border-top-right-radius: 15px; background: red; align-items: center;">
+            Start
+          </div>
+         
+        </div>
+        <div class="row" style="margin-top:10px; border: 1px solid grey; border-radius: 15px">
+            <div class="col-sm-11" style="padding:10px">
+              <p style="margin-bottom: 5px">Society Name</p>
+              <p style="margin-bottom: 5px">Society Address</p>
+              <div class="row"> 
+                <div class="col-4">Time</div>
+                <div class="col-4">Contact</div>
+                <div class="col-4">Mobile</div>
+              </div>
+            </div>  
+            <div class="col-sm-1 d-flex justify-content-center" style="border-bottom-right-radius: 15px; border-top-right-radius: 15px; background: red;     align-items: center;">
+              Start
+            </div>
+          </div>
+    </div>
+    <div id="menu1" class="container tab-pane fade"><br>
+      <h3>Menu 1</h3>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+    <div id="menu2" class="container tab-pane fade"><br>
+      <h3>Menu 2</h3>
+      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+    </div>
+  </div>
+</div>

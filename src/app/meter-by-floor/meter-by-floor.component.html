@@ -1,0 +1,114 @@
+<app-step-nav></app-step-nav>
+<div class="container" style="margin-bottom: 70px">
+    <ng-container>
+      <div class="row" *ngIf="true">
+          <div class="col-sm-4 mt-3">
+              <div class="card" style="border-radius: 15px; height: 100%">
+                <div class="card-header card-header-bg-todo">Tower Detail</div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="tname">Tower Name:</label> 
+                    <input type="text" class="form-control" id="tname" placeholder="Enter Tower Name" name="tname" required>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please fill out this field.</div> 
+                  </div>
+                  <div class="form-group">
+                    <label for="nooftower">No. Of Floor In Tower:</label> 
+                    <input type="number" class="form-control" id="nooftower" placeholder="Enter No. Of Floor" name="nooftower" required>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please fill out this field.</div> 
+                  </div>
+                  <div class="form-group">
+                    <label for="noofseries">No. Of Series In Tower:</label> 
+                    <input type="number" class="form-control" id="noofseries" placeholder="Enter No. Of Series" name="noofseries" required>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please fill out this field.</div> 
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="col-sm-8 mt-3">
+            <div class="card" style="border-radius: 15px; height: 100%">
+              <div class="card-header card-header-bg-todo">Existing Plumbing Structure</div>
+              <div class="card-body row"> 
+                <div class="col-sm-8">               
+                  <table class="table">
+                    <thead>
+                      <tr> 
+                        <th>Structure</th> 
+                        <th>Type:</th> 
+                        <th>Size:</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>    
+                        <td>Ring Mains</td> 
+                        <td>
+                          <select class="form-control" id="city" placeholder="Enter City" name="city" required>
+                            <option>Hello</option>
+                          </select>
+                        </td> 
+                        <td>
+                          <select class="form-control" id="city" placeholder="Enter City" name="city" required>
+                            <option>Hello</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Down Commers</td>
+                        <td>
+                          <select class="form-control" id="city" placeholder="Enter City" name="city" required>
+                            <option>Hello</option>
+                          </select>
+                        </td>
+                        <td>
+                          <select class="form-control" id="city" placeholder="Enter City" name="city" required>
+                            <option>Hello</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                          <td>Tapping</td>
+                          <td>
+                            <select class="form-control" id="city" placeholder="Enter City" name="city" required>
+                              <option>Hello</option>
+                            </select>
+                          </td>
+                          <td>
+                            <select class="form-control" id="city" placeholder="Enter City" name="city" required>
+                              <option>Hello</option>
+                            </select>
+                          </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-sm-4 vertical-center">
+                  <div class="form-group">
+                    Replumbing Required
+                      <label class="switch">
+                          <input type="checkbox" checked>
+                          <span class="slider round"></span>
+                        </label>
+                  </div>
+                  <div class="form-group">
+                      Ring Mains To Changed
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                          </label>
+                    </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        </div>
+      </ng-container>
+    <ng-container>
+      <div class="row" *ngIf="true">
+        <div class="col-sm-12">
+          
+        </div>
+      </div>
+    </ng-container>
+  </div>

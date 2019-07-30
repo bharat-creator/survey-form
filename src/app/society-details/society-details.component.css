@@ -1,0 +1,15 @@
+.center-spinner {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    margin: auto;
+}
+
+.card-header-bg-todo {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background: #fd665d;
+    color: white;
+}
