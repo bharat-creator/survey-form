@@ -1,114 +1,168 @@
 <app-step-nav></app-step-nav>
 <div class="container" style="margin-bottom: 70px">
-    <ng-container>
-      <div class="row" *ngIf="true">
-          <div class="col-sm-4 mt-3">
-              <div class="card" style="border-radius: 15px; height: 100%">
-                <div class="card-header card-header-bg-todo">Tower Detail</div>
-                <div class="card-body">
-                  <div class="form-group">
-                    <label for="tname">Tower Name:</label> 
-                    <input type="text" class="form-control" id="tname" placeholder="Enter Tower Name" name="tname" required>
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div> 
+  <ng-container>
+    <div class="row">
+      <div class="col-sm-12 mt-1">
+        <div class="card" style="border-radius: 15px; height: 100%">
+          <div class="card-header">Apartment Type Selection:</div>
+          <div class="card-body">
+            <div class="row border-between">
+              <div class="col-sm-6">
+                <div class="form-row">
+                  <div class="col-sm-5 col-xs-12">
+                    <label for="from">From:</label>
+                    <select class="form-control" id="from" [(ngModel)]="flatGrp.from" name="from" required>
+                      <option>Hello</option>
+                    </select>
                   </div>
-                  <div class="form-group">
-                    <label for="nooftower">No. Of Floor In Tower:</label> 
-                    <input type="number" class="form-control" id="nooftower" placeholder="Enter No. Of Floor" name="nooftower" required>
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div> 
+                  <div class="col-sm-2 div-vertical-center">
+                    ------
                   </div>
-                  <div class="form-group">
-                    <label for="noofseries">No. Of Series In Tower:</label> 
-                    <input type="number" class="form-control" id="noofseries" placeholder="Enter No. Of Series" name="noofseries" required>
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div> 
+                  <div class="col-sm-5 col-xs-12">
+                    <label for="to">To:</label>
+                    <select class="form-control" id="to" [(ngModel)]="flatGrp.to" name="to" required>
+                      <option>Hello</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row mt-3 vertical-center">
+                  <label for="jointSeries" class="col-sm-12 col-xs-2 col-md-2">Joint With: </label>
+                  <div class="form-inline col-sm-12 col-xs-12 col-md-5">
+                    <select class="form-control" id="jointSeries" [(ngModel)]="flatGrp.jointSeries" name="jointSeries" required>
+                      <option>Choose Series</option>
+                    </select>
+                  </div>
+                  <div class="form-inline col-margin col-sm-12 col-xs-12 col-md-5">
+                    <select class="form-control" id="jointFlat" [(ngModel)]="flatGrp.jointFlat" name="jointFlat" required>
+                      <option>Choose Flat No.</option>
+                    </select>
                   </div>
                 </div>
               </div>
-          </div>
-          <div class="col-sm-8 mt-3">
-            <div class="card" style="border-radius: 15px; height: 100%">
-              <div class="card-header card-header-bg-todo">Existing Plumbing Structure</div>
-              <div class="card-body row"> 
-                <div class="col-sm-8">               
-                  <table class="table">
-                    <thead>
-                      <tr> 
-                        <th>Structure</th> 
-                        <th>Type:</th> 
-                        <th>Size:</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>    
-                        <td>Ring Mains</td> 
-                        <td>
-                          <select class="form-control" id="city" placeholder="Enter City" name="city" required>
-                            <option>Hello</option>
-                          </select>
-                        </td> 
-                        <td>
-                          <select class="form-control" id="city" placeholder="Enter City" name="city" required>
-                            <option>Hello</option>
-                          </select>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Down Commers</td>
-                        <td>
-                          <select class="form-control" id="city" placeholder="Enter City" name="city" required>
-                            <option>Hello</option>
-                          </select>
-                        </td>
-                        <td>
-                          <select class="form-control" id="city" placeholder="Enter City" name="city" required>
-                            <option>Hello</option>
-                          </select>
-                        </td>
-                      </tr>
-                      <tr>
-                          <td>Tapping</td>
-                          <td>
-                            <select class="form-control" id="city" placeholder="Enter City" name="city" required>
-                              <option>Hello</option>
-                            </select>
-                          </td>
-                          <td>
-                            <select class="form-control" id="city" placeholder="Enter City" name="city" required>
-                              <option>Hello</option>
-                            </select>
-                          </td>
-                        </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="col-sm-4 vertical-center">
-                  <div class="form-group">
-                    Replumbing Required
-                      <label class="switch">
-                          <input type="checkbox" checked>
-                          <span class="slider round"></span>
-                        </label>
+              <div class="col-sm-6">
+                <div class="form-row">
+                  <div class="col-sm-5 col-xs-12">
+                    <label for="flatType">Choose Type:</label>
+                    <select class="form-control" id="flatType" [(ngModel)]="flatGrp.flatType" name="flatType" required>
+                      <option *ngFor="let type of flatType" [value]="type">{{type}}</option>
+                    </select>
                   </div>
-                  <div class="form-group">
-                      Ring Mains To Changed
-                        <label class="switch">
-                            <input type="checkbox" checked>
-                            <span class="slider round"></span>
-                          </label>
-                    </div>
                 </div>
               </div>
+            </div>
           </div>
-        </div>
-        </div>
-      </ng-container>
-    <ng-container>
-      <div class="row" *ngIf="true">
-        <div class="col-sm-12">
-          
         </div>
       </div>
-    </ng-container>
-  </div>
+      <div class="col-sm-12 mt-1">
+        <div class="card" style="border-radius: 15px; height: 100%">
+          <div class="card-header">Inlet Selection:</div>
+          <div class="card-body">
+            <div class="row border-between">
+              <div class="col-sm-6 mt-2 text-center">
+                <div class="row m-0 mx-1 p-1">
+                  <div class="col-3">
+                    <div class="custom-control-inline custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                      <label class="custom-control-label" for="customCheck">K</label>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="custom-control-inline custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                      <label class="custom-control-label" for="customCheck">B1</label>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="custom-control-inline custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                      <label class="custom-control-label" for="customCheck">B2</label>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="custom-control-inline custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                      <label class="custom-control-label" for="customCheck">U</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row m-0 mx-1 p-1">
+                  <div class="col-3">
+                    <div class="custom-control-inline custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                      <label class="custom-control-label" for="customCheck">U</label>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="custom-control-inline custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                      <label class="custom-control-label" for="customCheck">M</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="row m-0 mt-2 mx-1">
+                      <div class="col-sm-12 btn-toolbar">
+                        <button class="btn mr-1 btn-sm btn-primary">Add Inlets</button>
+                        <button class="btn ml-1 btn-sm btn-primary">Combine Inlets</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <a class="btn-close">X</a>
+                  <div class="col-sm-12">
+                    <div class="row m-0 mt-2 mx-1 py-2" style="border: 1px solid #eaeaea">
+                      <div class="col-sm-3">
+                        <select class="form-control" id="type" placeholder="Enter State" name="type" required>
+                          <option>K</option>
+                        </select>
+                      </div>
+                      <div class="col-sm-2">
+                        & +
+                      </div>
+                      <div class="col-sm-3">
+                        <select class="form-control" id="type" placeholder="Enter State" name="type" required>
+                          <option>B1</option>
+                        </select>
+                      </div>
+                      <div class="col-sm-4 col-margin text-left vertical-center">
+                        <button class="btn btn-md btn-outline-primary">Combine</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 mt-2 text-center">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Inlet</th>
+                      <th>Type</th>
+                      <th>Meter</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let inlet of flatGrp.inletGrp">
+                      <td>{{inlet.inlet}}</td>
+                      <td>
+                        <select class="form-control" [(ngModel)]="inlet.type" required>
+                          <option>Cold</option>
+                        </select>
+                      </td>
+                      <td>
+                        <select class="form-control" [(ngModel)]="inlet.meter" required>
+                          <option>DN-15</option>
+                        </select>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

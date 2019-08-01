@@ -1,28 +1,40 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { MainPageComponent } from './main-page/main-page.component';
+import { ListComponent } from './list/list.component';
 import { SocietyDetailsComponent } from './society-details/society-details.component';
 import { StepNavComponent } from './step-nav/step-nav.component';
 import { MeterByFloorComponent } from './meter-by-floor/meter-by-floor.component';
+import { YStrainerComponent } from './y-strainer/y-strainer.component';
+
+import { FormsModule } from '@angular/forms';
+import { SocietyDetailsService } from './society-details/society-details.service';
+import { TowerConfigComponent } from './tower-config/tower-config.component';
+import { TowerConfigService } from './tower-config/tower-config.service';
+import { MeterByFloorService } from './meter-by-floor/meter-by-floor.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    MainPageComponent,
+    ListComponent,
     SocietyDetailsComponent,
     StepNavComponent,
-    MeterByFloorComponent
+    MeterByFloorComponent,
+    YStrainerComponent,
+    TowerConfigComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [SocietyDetailsService, TowerConfigService, MeterByFloorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

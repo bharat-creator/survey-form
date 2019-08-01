@@ -1,0 +1,83 @@
+<app-step-nav></app-step-nav>
+<div class="container" style="margin-bottom: 70px">
+  <div class="row">
+    <div class="col-sm-4 mt-3">
+      <div class="card" style="border-radius: 15px; height: 100%">
+        <div class="card-header card-header-bg-todo">Tower Detail</div>
+        <div class="card-body">
+          <div class="form-group">
+            <label for="towerName">Tower Name:</label>
+            <input type="text" class="form-control" id="towerName" placeholder="Enter Tower Name" name="tname" [(ngModel)]="towerConfig.towerName" required>
+          </div>
+          <div class="form-group">
+            <label for="noOfFloor">No. Of Floor In Tower:</label>
+            <input type="number" class="form-control" id="noOfFloor" placeholder="Enter No. Of Floor" [(ngModel)]="towerConfig.noOfFloor" name="noOfFloor"
+              required>
+          </div>
+          <div class="form-group">
+            <label for="noOfSeries">No. Of Series In Tower:</label>
+            <input type="number" class="form-control" id="noOfSeries" placeholder="Enter No. Of Series"
+              name="noofseries" [(ngModel)]="towerConfig.noOfSeries" required>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8 mt-3">
+      <div class="card" style="border-radius: 15px; height: 100%">
+        <div class="card-header card-header-bg-todo">Existing Plumbing Structure</div>
+        <div class="card-body row">
+          <div class="col-sm-8">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Structure</th>
+                  <th>Type:</th>
+                  <th>Size:</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let structure of towerConfig.plumbingStructure; let i = index">
+                  <td>{{structure.name}}</td>
+                  <td>
+                    <select class="form-control" id="type" [(ngModel)]="structure.type" name="type" required>
+                      <option *ngFor="let t of listOfPipeTypes" [value]="t.type">{{t.type}}</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select class="form-control" id="size" [(ngModel)]="structure.size" name="size" required>
+                      <option *ngFor="let s of listOfMaterialSize" [value]="s.size">{{s.size}}</option>
+                    </select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-sm-4 vertical-center">
+            <div class="form-group">
+              Replumbing Required
+              <!-- <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                      </label> -->
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" [(ngModel)]="towerConfig.replumbingReq" id="replumbingReq">
+                <label class="custom-control-label" for="replumbingReq"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              Ring Mains To Changed
+              <!-- <label class="switch">
+                          <input type="checkbox" checked>
+                          <span class="slider round"></span>
+                        </label> -->
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" [(ngModel)]="towerConfig.ringMainsChanged" id="ringMainsChanged">
+                <label class="custom-control-label" for="ringMainsChanged"></label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

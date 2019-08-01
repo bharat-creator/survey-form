@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AppComponent } from './../app.component';
+import { Component, OnInit, Inject } from '@angular/core';
 
 @Component({
   selector: 'app-step-nav',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StepNavComponent implements OnInit {
 
-  constructor() { }
+  constructor(@Inject(AppComponent) private parent: AppComponent) { }
 
   ngOnInit() {
+    console.log(this.parent.stepcss);
   }
 
 }

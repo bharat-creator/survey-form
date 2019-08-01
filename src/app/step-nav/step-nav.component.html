@@ -2,13 +2,13 @@
     <div class="navbar navbar-expand-lg" style="padding:0px">
       <div style="border: 1px solid #eaeaea; border-radius: 30px; display: flex">
    
-        <div class="navbar-nav flex-column">
+        <div class="navbar-nav flex-column" [class.speech-bubble]="this.parent.stepcss == 'society_details'">
           <a class="nav-item nav-link" routerLink="/page1">Society Details </a>
         </div>
-        <div class="navbar-nav flex-column speech-bubble">
-          <a class="nav-item nav-link" routerLink="/page1">Meter By Floor </a>
+        <div class="navbar-nav flex-column" [class.speech-bubble]="this.parent.stepcss == 'meter_by_floor'">
+          <a class="nav-item nav-link" routerLink="/page1">Meter By Floor</a>
         </div>
-        <div class="navbar-nav flex-column">
+        <div class="navbar-nav flex-column" [class.speech-bubble]="this.parent.stepcss == 'y_strainer'">
           <a class="nav-item nav-link" routerLink="/page1">Y - Stainer</a>
         </div>
         <div class="navbar-nav flex-column">
