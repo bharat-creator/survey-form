@@ -3,39 +3,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
+import { HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ListService {
-
-  private ListOfService: ListOfSurvey[];
-  constructor() { }
-
+  constructor(private httpClient:HttpClient) {  }
   getListOfSurvey(): Observable<ListOfSurvey[]> {
-    this.ListOfService = [
-        {
-            trackerId: 67,
-            name: 'Society Name',
-            address: 'Society Address',
-            scheduleTime: '2019-07-06',
-            contactName: 'Praveen',
-            contactPhone: 9021301537,
-            csmName: 'Dhrumit',
-            csmPhone: 1234567890
-        },
-        {
-            trackerId: 68,
-            name: 'Society Name',
-            address: 'Society Address',
-            scheduleTime: '2019-07-06',
-            contactName: 'Praveen',
-            contactPhone: 9021301537,
-            csmName: 'Dhrumit',
-            csmPhone: 1234567890
-        }
-    ];
-    return Observable.of(this.ListOfService);
-  }
+  return this.httpClient.get<ListOfSurvey[]>('http://stg-eclipse2.nuclious.in/spi/getsurvey');
+ }
 }

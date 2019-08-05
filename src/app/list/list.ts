@@ -5,6 +5,6 @@ export interface ListOfSurvey {
     scheduleTime: string;
     contactName: string;
     contactPhone: number;
-    csmName: string;
-    csmPhone: number;
+    accountManagerName: string;
+    accountManagerPhone: number;
 }
