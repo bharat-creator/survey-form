@@ -1,6 +1,6 @@
 import { AppService } from './../app-service';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-prev-next',
@@ -16,17 +16,20 @@ export class PrevNextComponent implements OnInit {
   nextUrl: string;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private appservice: AppService) {
-    this.trackerId = this.activatedRoute.snapshot.params.trackerId;
-    this.appservice.setTrackerId(Number(this.trackerId));
 
-    this.towerNo = this.activatedRoute.snapshot.params.towerNo;
-    this.appservice.setTowerNo(Number(this.towerNo));
+    this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+      this.trackerId = parseInt(params.get('trackerId'), 10);
+      this.appservice.setTrackerId(Number(this.trackerId));
 
-    this.seriesNo = this.activatedRoute.snapshot.params.seriesNo;
-    this.appservice.setSeriesNo(Number(this.seriesNo));
+      this.towerNo = parseInt(params.get('towerNo'), 10);
+      this.appservice.setTowerNo(Number(this.towerNo));
 
-    this.groupNo = this.activatedRoute.snapshot.params.groupNo;
-    this.appservice.setGroupNo(Number(this.groupNo));
+      this.seriesNo = parseInt(params.get('seriesNo'), 10);
+      this.appservice.setSeriesNo(Number(this.seriesNo));
+
+      this.groupNo = parseInt(params.get('groupNo'), 10);
+      this.appservice.setGroupNo(Number(this.groupNo));
+    });
   }
 
   ngOnInit() {

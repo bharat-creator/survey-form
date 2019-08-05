@@ -46,8 +46,13 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
 
   }
 
-  initialiseInvites() {
-    this.ngOnInit();
+  initialiseInvites() { 
+    this.chooseFlatArray = [];
+    this.chooseInletArray = [];
+    this.selectedInlet = [];
+    this.magicalLogicFn();
+    this.flatGrp = this.FlatGrp();
+    this.onFlatCombineChange();
   }
 
   magicalLogicFn() {
@@ -63,13 +68,6 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.chooseFlatArray = [];
-    this.chooseInletArray = [];
-    this.selectedInlet = [];
-    this.magicalLogicFn();
-    this.flatGrp = this.FlatGrp();
-    this.onFlatCombineChange();
-    
   }
 
   FlatGrp() {
@@ -93,18 +91,20 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   nextPageUrl() {
     this.trackerId = this.appService.getTrackerId();
     this.towerNo = this.appService.getTowerNo();
+    this.seriesNo = this.appService.getSeriesNo();
     this.groupNo = this.appService.getGroupNo();
+    console.log('Series' + this.seriesNo);
     // group completed
     if (!this.groupCompleted()) {
-      this.groupNo += 1;
+
       this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
-                                  + this.seriesNo + '/group/' + this.groupNo);
-      this.appService.setGroupNo(this.groupNo);
+                                  + this.seriesNo + '/group/' + (this.groupNo + 1));
+
     } else if (!this.seriesCompleted()) {
-      this.seriesNo += 1;
+
       this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
-                                  + this.seriesNo  + '/group/1');
-      this.appService.setSeriesNo(this.seriesNo);
+                                  + (this.seriesNo + 1)  + '/group/1');
+
     } else {
       this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/ystrainer');
     }
@@ -120,7 +120,7 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
 
   seriesCompleted() {
     const noOfSeriesInTower = this.towerConfig.getNoOfSeries();
-    if (this.seriesNo == noOfSeriesInTower) {
+    if (this.seriesNo === noOfSeriesInTower) {
       return true;
     }
     return false;
