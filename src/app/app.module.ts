@@ -16,6 +16,8 @@ import { SocietyDetailsService } from './society-details/society-details.service
 import { TowerConfigComponent } from './tower-config/tower-config.component';
 import { TowerConfigService } from './tower-config/tower-config.service';
 import { MeterByFloorService } from './meter-by-floor/meter-by-floor.service';
+import { PrevNextComponent } from './prev-next/prev-next.component';
+import { AppService } from './app-service';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { MeterByFloorService } from './meter-by-floor/meter-by-floor.service';
     StepNavComponent,
     MeterByFloorComponent,
     YStrainerComponent,
-    TowerConfigComponent
+    TowerConfigComponent,
+    PrevNextComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +37,7 @@ import { MeterByFloorService } from './meter-by-floor/meter-by-floor.service';
     HttpClientModule,
     FormsModule
   ],
-  providers: [SocietyDetailsService, TowerConfigService, MeterByFloorService],
+  providers: [AppService, SocietyDetailsService, TowerConfigService, MeterByFloorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

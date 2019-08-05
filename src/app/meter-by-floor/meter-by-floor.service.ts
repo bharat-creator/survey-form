@@ -1,3 +1,4 @@
+import { AppService } from './../app-service';
 import { SeriesGrp, FlatGrp, InletGrp } from './series-group';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -14,9 +15,12 @@ export class MeterByFloorService {
 
   private startFrom: number;
   private endTo: number;
+  trackerId: number;
+  towerNo: number;
+  seriesNo: number;
 
 
-  constructor() {
+  constructor(private appService: AppService) {
   }
 
   getEndToVal(): number {
@@ -32,6 +36,13 @@ export class MeterByFloorService {
 
   setStartFromVal(value: number) {
     this.startFrom = value;
+  }
+
+  getMeterByFloorDetail(){
+    this.trackerId = this.appService.getTrackerId();
+    this.towerNo = this.appService.getTowerNo();
+    this.seriesNo = this.appService.getSeriesNo();
+    console.log(this.seriesNo);
   }
 
 
