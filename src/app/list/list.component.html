@@ -19,50 +19,20 @@
   <!-- Tab panes -->
   <div class="tab-content">
     <div id="todos" class="container tab-pane active">
-      <div class="row" style="margin-top:10px; border: 1px solid grey; border-radius: 15px;"> 
+      <div *ngFor="let list of listOfSurvey" class="row" style="margin-top:10px; border: 1px solid grey; border-radius: 15px;">
         <div class="col-sm-11" style="padding:10px">
-          <p style="margin-bottom: 5px">Society Name</p>
-          <p style="margin-bottom: 5px">Society Address</p>
-          <div class="row"> 
-            <div class="col-4">Time</div>
-            <div class="col-4">Contact</div>
-            <div class="col-4">Mobile</div>
+          <p style="margin-bottom: 5px">{{list.name}}</p>
+          <p style="margin-bottom: 5px">{{list.address}}</p>
+          <div class="row">
+            <div class="col-4">{{list.scheduleTime}}</div>
+            <div class="col-4">{{list.contactName}}</div>
+            <div class="col-4">{{list.contactPhone}}</div>
           </div>
-        </div>  
-        <div class="col-sm-1 d-flex justify-content-center" style="border-bottom-right-radius: 15px; border-top-right-radius: 15px; background: red; align-items: center;">
+        </div>
+        <div (click)="startSurvey(list.trackerId)" class="col-sm-1 d-flex justify-content-center" style="border-bottom-right-radius: 15px; border-top-right-radius: 15px; background: red; align-items: center;">
           Start
         </div>
       </div>
-      <div class="row" style="margin-top:10px; border: 1px solid grey; border-radius: 15px;"> 
-          <div class="col-sm-11" style="padding:10px">
-            <p style="margin-bottom: 5px">Society Name</p>
-            <p style="margin-bottom: 5px">Society Address</p>
-            <div class="row"> 
-              <div class="col-4">Time</div>
-              <div class="col-4">Contact</div>
-              <div class="col-4">Mobile</div>
-            </div>
-          </div> 
-           
-          <div (click)="startSurvey(67)"class="col-sm-1 d-flex justify-content-center" style="border-bottom-right-radius: 15px; border-top-right-radius: 15px; background: red; align-items: center;">
-            Start
-          </div>
-         
-        </div>
-        <div class="row" style="margin-top:10px; border: 1px solid grey; border-radius: 15px">
-            <div class="col-sm-11" style="padding:10px">
-              <p style="margin-bottom: 5px">Society Name</p>
-              <p style="margin-bottom: 5px">Society Address</p>
-              <div class="row"> 
-                <div class="col-4">Time</div>
-                <div class="col-4">Contact</div>
-                <div class="col-4">Mobile</div>
-              </div>
-            </div>  
-            <div class="col-sm-1 d-flex justify-content-center" style="border-bottom-right-radius: 15px; border-top-right-radius: 15px; background: red;     align-items: center;">
-              Start
-            </div>
-          </div>
     </div>
     <div id="continue" class="container tab-pane fade"><br>
       <h3>Continue</h3>
