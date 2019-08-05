@@ -4,8 +4,8 @@ export interface SeriesGrp {
 }
 
 export interface FlatGrp {
-    from: string;
-    to: string;
+    from: number;
+    to: number;
     flatType: string;
     jointSeries: number;
     jointFlat: string;

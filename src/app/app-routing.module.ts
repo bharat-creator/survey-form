@@ -10,10 +10,10 @@ import { YStrainerComponent } from './y-strainer/y-strainer.component';
 const routes: Routes = [
   { path: '',   redirectTo: '/list', pathMatch: 'full' },
   { path: 'list', component: ListComponent },
-  { path: 'soc/:socId/detail', component: SocietyDetailsComponent },
-  { path: 'soc/:socId/tower/:towerNo/config', component: TowerConfigComponent },
-  { path: 'soc/:socId/tower/:towerNo/series/:seriesNo/group/:groupNo', component: MeterByFloorComponent },
-  { path: 'soc/:socId/tower/:towerNo/ystrainer', component: YStrainerComponent }
+  { path: 'soc/:trackerId/detail', component: SocietyDetailsComponent },
+  { path: 'soc/:trackerId/tower/:towerNo/config', component: TowerConfigComponent },
+  { path: 'soc/:trackerId/tower/:towerNo/series/:seriesNo/group/:groupNo', component: MeterByFloorComponent },
+  { path: 'soc/:trackerId/tower/:towerNo/ystrainer', component: YStrainerComponent }
 ];
 
 @NgModule({

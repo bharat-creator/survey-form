@@ -1,5 +1,5 @@
 export interface ListOfSurvey {
-    socId: number;
+    trackerId: number;
     name: string;
     address: string;
     scheduleTime: string;

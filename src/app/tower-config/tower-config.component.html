@@ -11,12 +11,12 @@
           </div>
           <div class="form-group">
             <label for="noOfFloor">No. Of Floor In Tower:</label>
-            <input type="number" class="form-control" id="noOfFloor" placeholder="Enter No. Of Floor" [(ngModel)]="towerConfig.noOfFloor" name="noOfFloor"
+            <input type="number" class="form-control" id="noOfFloor" min="1" placeholder="Enter No. Of Floor" [(ngModel)]="towerConfig.noOfFloor" name="noOfFloor"
               required>
           </div>
           <div class="form-group">
             <label for="noOfSeries">No. Of Series In Tower:</label>
-            <input type="number" class="form-control" id="noOfSeries" placeholder="Enter No. Of Series"
+            <input type="number" class="form-control" id="noOfSeries" min="0" max="99" placeholder="Enter No. Of Series"
               name="noofseries" [(ngModel)]="towerConfig.noOfSeries" required>
           </div>
         </div>

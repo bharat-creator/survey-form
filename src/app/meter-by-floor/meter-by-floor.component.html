@@ -4,16 +4,14 @@
     <div class="row">
       <div class="col-sm-12 mt-1">
         <div class="card" style="border-radius: 15px; height: 100%">
-          <div class="card-header">Apartment Type Selection:</div>
+          <div class="card-header">Apartment Type Selection: <span>No. Of Apartment: {{((flatGrp.to-flatGrp.from)/100)+1}}</span> -- Type: <span>{{flatGrp.flatType}}</span></div>
           <div class="card-body">
             <div class="row border-between">
               <div class="col-sm-6">
                 <div class="form-row">
                   <div class="col-sm-5 col-xs-12">
                     <label for="from">From:</label>
-                    <select class="form-control" id="from" [(ngModel)]="flatGrp.from" name="from" required>
-                      <option>Hello</option>
-                    </select>
+                    <input type="number" class="form-control" [(ngModel)]="flatGrp.from" disabled> 
                   </div>
                   <div class="col-sm-2 div-vertical-center">
                     ------
@@ -21,11 +19,11 @@
                   <div class="col-sm-5 col-xs-12">
                     <label for="to">To:</label>
                     <select class="form-control" id="to" [(ngModel)]="flatGrp.to" name="to" required>
-                      <option>Hello</option>
+                      <option *ngFor="let f of chooseFlatArray" [value]="f">{{f}}</option>
                     </select>
                   </div>
                 </div>
-                <div class="form-row mt-3 vertical-center">
+                <div class="form-row mt-3 vertical-center" *ngIf="(((flatGrp.to-flatGrp.from)/100)+1) == 1">
                   <label for="jointSeries" class="col-sm-12 col-xs-2 col-md-2">Joint With: </label>
                   <div class="form-inline col-sm-12 col-xs-12 col-md-5">
                     <select class="form-control" id="jointSeries" [(ngModel)]="flatGrp.jointSeries" name="jointSeries" required>
@@ -44,7 +42,7 @@
                   <div class="col-sm-5 col-xs-12">
                     <label for="flatType">Choose Type:</label>
                     <select class="form-control" id="flatType" [(ngModel)]="flatGrp.flatType" name="flatType" required>
-                      <option *ngFor="let type of flatType" [value]="type">{{type}}</option>
+                      <option *ngFor="let t of typeOfFlat" [value]="t.type">{{t.type}}</option>
                     </select>
                   </div>
                 </div>
@@ -55,79 +53,38 @@
       </div>
       <div class="col-sm-12 mt-1">
         <div class="card" style="border-radius: 15px; height: 100%">
-          <div class="card-header">Inlet Selection:</div>
+          <div class="card-header">Inlet Selection: <span>No. Of Apartment: {{((flatGrp.to-flatGrp.from)/100)+1}}</span> -- Type: <span>{{flatGrp.flatType}}</span></div>
           <div class="card-body">
             <div class="row border-between">
               <div class="col-sm-6 mt-2 text-center">
-                <div class="row m-0 mx-1 p-1">
-                  <div class="col-3">
+                <div class="row m-0 mx-1 p-1" >
+                  <div class="col-3" *ngFor="let type of typeOfInlet; let i = index">
                     <div class="custom-control-inline custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                      <label class="custom-control-label" for="customCheck">K</label>
+                      <input type="checkbox" class="custom-control-input" [id]="type.inlet" ngModel (ngModelChange)="addRemoveInlet(type.inlet,$event)">
+                      <label class="custom-control-label" [for]="type.inlet">{{type.inlet}}</label>
                     </div>
-                  </div>
-                  <div class="col-3">
-                    <div class="custom-control-inline custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                      <label class="custom-control-label" for="customCheck">B1</label>
-                    </div>
-                  </div>
-                  <div class="col-3">
-                    <div class="custom-control-inline custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                      <label class="custom-control-label" for="customCheck">B2</label>
-                    </div>
-                  </div>
-                  <div class="col-3">
-                    <div class="custom-control-inline custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                      <label class="custom-control-label" for="customCheck">U</label>
-                    </div>
-                  </div>
+                  </div>  
                 </div>
-                <div class="row m-0 mx-1 p-1">
+                <!-- <div class="row m-0 mx-1 p-1" *ngIf="!showCombineBox">
                   <div class="col-3">
                     <div class="custom-control-inline custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                      <label class="custom-control-label" for="customCheck">U</label>
+                      <input type="checkbox" class="custom-control-input" id="U1" ngModel (ngModelChange)="addRemoveInlet('U1',$event)" >
+                      <label class="custom-control-label" for="U1">U1</label>
                     </div>
                   </div>
                   <div class="col-3">
                     <div class="custom-control-inline custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                      <label class="custom-control-label" for="customCheck">M</label>
+                      <input type="checkbox" class="custom-control-input" id="M"  >
+                      <label class="custom-control-label" for="M">M</label>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="row m-0 mt-2 mx-1">
                       <div class="col-sm-12 btn-toolbar">
-                        <button class="btn mr-1 btn-sm btn-primary">Add Inlets</button>
-                        <button class="btn ml-1 btn-sm btn-primary">Combine Inlets</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <a class="btn-close">X</a>
-                  <div class="col-sm-12">
-                    <div class="row m-0 mt-2 mx-1 py-2" style="border: 1px solid #eaeaea">
-                      <div class="col-sm-3">
-                        <select class="form-control" id="type" placeholder="Enter State" name="type" required>
-                          <option>K</option>
-                        </select>
-                      </div>
-                      <div class="col-sm-2">
-                        & +
-                      </div>
-                      <div class="col-sm-3">
-                        <select class="form-control" id="type" placeholder="Enter State" name="type" required>
-                          <option>B1</option>
-                        </select>
-                      </div>
-                      <div class="col-sm-4 col-margin text-left vertical-center">
-                        <button class="btn btn-md btn-outline-primary">Combine</button>
+                        <input type="text" class="form-control col-3" [(ngModel)]="newInletAdded">
+                        <button class="btn mx-1 btn-sm btn-primary" (click)="addNewInlet()">New Inlets</button>
                       </div>
                     </div>
                   </div>
@@ -140,24 +97,60 @@
                       <th>Inlet</th>
                       <th>Type</th>
                       <th>Meter</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let inlet of flatGrp.inletGrp">
-                      <td>{{inlet.inlet}}</td>
+                    <tr *ngFor="let i of flatGrp.inletGrp">
+                      <td>{{i.inlet}}</td>
                       <td>
-                        <select class="form-control" [(ngModel)]="inlet.type" required>
-                          <option>Cold</option>
+                        <select class="form-control" [(ngModel)]="i.type" required>
+                          <option value="cold">Cold</option>
+                          <option value="hot">Hot</option>
                         </select>
                       </td>
                       <td>
-                        <select class="form-control" [(ngModel)]="inlet.meter" required>
+                        <select class="form-control" [(ngModel)]="i.meter" required>
                           <option>DN-15</option>
                         </select>
+                      </td>
+                      <td>
+                          <i class="fa fa-trash" aria-hidden="true" (click)="removeInletDir(i.inlet)"></i>
                       </td>
                     </tr>
                   </tbody>
                 </table>
+                <button *ngIf="chooseInletArray.length > 1 && !showCombineBox" class="float-left btn ml-1 btn-sm btn-primary" (click)="showCombineBox = !showCombineBox">Combine Inlets</button>
+                <div class="row" *ngIf="showCombineBox">
+                    <a class="btn-close" (click)="showCombineBox = !showCombineBox">X</a>
+                    <div class="col-sm-12">
+                      <div class="row m-0 mt-2 mx-1 py-2" style="border: 1px solid #eaeaea">
+                        <div class="col-sm-3">
+                          <select class="form-control" [(ngModel)]="firstInlet" required> 
+                            <ng-container *ngFor="let i of chooseInletArray">
+                              <option *ngIf="secondInlet != i" [value]="i">{{i}}</option>
+                            </ng-container>
+                          </select>
+                        </div>
+                        <div class="col-sm-2">
+                          <select class="form-control" [(ngModel)]="combineType" required>
+                            <option value="&">&</option>
+                            <option value="+">+</option>
+                          </select>
+                        </div>
+                        <div class="col-sm-3">
+                          <select class="form-control" [(ngModel)]="secondInlet" required>
+                            <ng-container *ngFor="let i of chooseInletArray">
+                              <option *ngIf="firstInlet != i" [value]="i">{{i}}</option>
+                            </ng-container>
+                          </select>
+                        </div>
+                        <div class="col-sm-4 col-margin text-left vertical-center">
+                          <button class="btn btn-md btn-outline-primary" (click)="combineInlet()">Combine</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
               </div>
             </div>
           </div>

@@ -16,7 +16,7 @@ export class ListService {
   getListOfSurvey(): Observable<ListOfSurvey[]> {
     this.ListOfService = [
         {
-            socId: 67,
+            trackerId: 67,
             name: 'Society Name',
             address: 'Society Address',
             scheduleTime: '2019-07-06',
@@ -26,7 +26,7 @@ export class ListService {
             csmPhone: 1234567890
         },
         {
-            socId: 68,
+            trackerId: 68,
             name: 'Society Name',
             address: 'Society Address',
             scheduleTime: '2019-07-06',

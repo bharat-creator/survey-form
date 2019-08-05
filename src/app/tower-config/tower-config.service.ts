@@ -11,6 +11,9 @@ import 'rxjs/add/observable/throw';
 
 export class TowerConfigService {
     private towerConfig: TowerConfig;
+    private noOfFloor: number;
+    private noOfSeries: number;
+
     private plumbingStructure: PlumbingStructure[];
     constructor() {
         this.towerConfig = {
@@ -26,6 +29,23 @@ export class TowerConfigService {
             ],
             seriesGrp:[]
         };
+    }
+
+    setNoOfFloors(value: number) {
+      this.noOfFloor = value;
+    }
+
+    getNoOfFloors(): number {
+      this.noOfFloor = 8;
+      return this.noOfFloor;
+    }
+
+    setNoOfSeries(value: number) {
+      this.noOfSeries = value;
+    }
+
+    getNoOfSeries(): number {
+      return this.noOfSeries;
     }
 
     getTowerDetail() {
