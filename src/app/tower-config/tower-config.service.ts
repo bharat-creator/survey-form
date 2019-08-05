@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
+import { AppService } from '../app-service';
 
 
 @Injectable({
@@ -10,45 +11,53 @@ import 'rxjs/add/observable/throw';
 })
 
 export class TowerConfigService {
-    private towerConfig: TowerConfig;
-    private noOfFloor: number;
-    private noOfSeries: number;
+  private towerConfig: TowerConfig;
+  private noOfFloor: number;
+  private noOfSeries: number;
 
-    private plumbingStructure: PlumbingStructure[];
-    constructor() {
-        this.towerConfig = {
-            towerName: 'Tower A',
-            noOfFloor: 12,
-            noOfSeries: 4,
-            replumbingReq: true,
-            ringMainsChanged: false,
-            plumbingStructure: [
-                { name: 'Ring Mains', type: 'cpvc', size: '1"'},
-                { name: 'Down Comers', type: 'cpvc', size: '1"'},
-                { name: 'Tapping', type: 'cpvc', size: '1"'}
-            ],
-            seriesGrp:[]
-        };
-    }
+  private plumbingStructure: PlumbingStructure[];
+  towerNo: number;
+  trackerId: number;
 
-    setNoOfFloors(value: number) {
-      this.noOfFloor = value;
-    }
+  constructor(private appService: AppService) {
+      this.towerConfig = {
+          towerName: 'Tower A',
+          noOfFloor: 12,
+          noOfSeries: 4,
+          replumbingReq: true,
+          ringMainsChanged: false,
+          plumbingStructure: [
+              { name: 'Ring Mains', type: 'cpvc', size: '1"'},
+              { name: 'Down Comers', type: 'cpvc', size: '1"'},
+              { name: 'Tapping', type: 'cpvc', size: '1"'}
+          ],
+          seriesGrp:[]
+      };
+  }
 
-    getNoOfFloors(): number {
-      this.noOfFloor = 8;
-      return this.noOfFloor;
-    }
+  setNoOfFloors(value: number) {
+    this.noOfFloor = value;
+  }
 
-    setNoOfSeries(value: number) {
-      this.noOfSeries = value;
-    }
+  getNoOfFloors(): number {
+    this.noOfFloor = this.towerConfig.noOfFloor;
+    return this.noOfFloor;
+  }
 
-    getNoOfSeries(): number {
-      return this.noOfSeries;
-    }
+  setNoOfSeries(value: number) {
+    this.noOfSeries = value;
+  }
 
-    getTowerDetail() {
-      return this.towerConfig;
-    }
+  getNoOfSeries(): number {
+    this.noOfSeries = this.towerConfig.noOfSeries;
+    return this.noOfSeries;
+  }
+
+  getTowerDetail() {
+    this.trackerId = this.appService.getTrackerId();
+    this.towerNo = this.appService.getTowerNo();
+    this.appService.setPrevUrl('soc/' + this.trackerId + '/detail/');
+    this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/1/group/1');
+    return this.towerConfig;
+  }
 }

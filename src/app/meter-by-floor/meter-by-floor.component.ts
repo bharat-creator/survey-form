@@ -1,24 +1,27 @@
+import { AppService } from './../app-service';
 import { MeterByFloorService } from './meter-by-floor.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SeriesGrp, FlatGrp, InletGrp } from './series-group';
 import { AppComponent } from '../app.component';
-import { ActivatedRoute } from '@angular/router';
 import { TowerConfigService } from '../tower-config/tower-config.service';
+import { noComponentFactoryError } from '@angular/core/src/linker/component_factory_resolver';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-meter-by-floor',
   templateUrl: './meter-by-floor.component.html',
   styleUrls: ['./meter-by-floor.component.css']
 })
-export class MeterByFloorComponent implements OnInit {
+export class MeterByFloorComponent implements OnInit, OnDestroy {
 
   trackerId: number;
   towerNo: number;
   seriesNo: number;
   groupNo: number;
-  chooseFlatArray = [];
   newInletAdded: string;
+  chooseFlatArray = [];
   chooseInletArray = [];
+  selectedInlet = [];
   showCombineBox = false;
   combineType = '&';
   firstInlet = '';
@@ -27,32 +30,48 @@ export class MeterByFloorComponent implements OnInit {
   flatGrp: FlatGrp;
   typeOfFlat = [{ type: '1BHK' }, { type: '2BHK' }, { type: '3BHK' }, { type: '4BHK' }, { type: 'Villa' }];
   typeOfInlet = [{ inlet: 'K' }, { inlet: 'M' }, { inlet: 'B1' }, { inlet: 'B2' }, { inlet: 'U' }, { inlet: 'S' }];
-  selectedInlet = [];
-  constructor(private activatedRoute: ActivatedRoute, private parent: AppComponent, private mtrbyflr: MeterByFloorService,
-              private towerConfig: TowerConfigService) {
+  
+  noOfFloors: number;
+  navigationSubscription: any;
 
-    this.trackerId = this.activatedRoute.snapshot.params.trackerId;
-    this.towerNo = this.activatedRoute.snapshot.params.towerNo;
-    this.seriesNo = 1;// this.activatedRoute.snapshot.params.seriesNo;
-    this.groupNo = this.activatedRoute.snapshot.params.groupNo;
+  constructor(private parent: AppComponent, private mtrbyflr: MeterByFloorService,
+              private towerConfig: TowerConfigService, private appService: AppService,
+              private router: Router) {
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      // If it is a NavigationEnd event re-initalise the component
+      if (e instanceof NavigationEnd) {
+        this.initialiseInvites();
+      }
+    });
 
+  }
+
+  initialiseInvites() { 
+    this.chooseFlatArray = [];
+    this.chooseInletArray = [];
+    this.selectedInlet = [];
     this.magicalLogicFn();
-
+    this.flatGrp = this.FlatGrp();
+    this.onFlatCombineChange();
   }
 
   magicalLogicFn() {
-    const noOfFloors = this.towerConfig.getNoOfFloors();
-    this.mtrbyflr.setStartFromVal(1);
-    this.mtrbyflr.setEndToVal((noOfFloors - 1) * 100 + this.seriesNo);
-    console.log((noOfFloors - 1) * 100 + this.seriesNo);
-    for (let i = 1; i <= noOfFloors; i++) {
-      this.chooseFlatArray.push((i - 1) * 100 + this.seriesNo);
+    this.seriesNo = this.appService.getSeriesNo();
+    this.noOfFloors = this.towerConfig.getNoOfFloors();
+
+    this.mtrbyflr.setStartFromVal(this.seriesNo);
+    this.mtrbyflr.setEndToVal(((this.noOfFloors - 1) * 100) + this.seriesNo);
+
+    for (let i = 1; i <= this.noOfFloors; i++) {
+      this.chooseFlatArray.push(((i - 1) * 100) + this.seriesNo);
     }
-    console.log(this.chooseFlatArray);
   }
 
   ngOnInit() {
-    this.flatGrp = {
+  }
+
+  FlatGrp() {
+    return {
       from: this.mtrbyflr.getStartFromVal(),
       to: this.mtrbyflr.getEndToVal(),
       flatType: '2BHK',
@@ -62,8 +81,55 @@ export class MeterByFloorComponent implements OnInit {
 
       ]
     };
+  }
 
-    console.log('Child Component' + this.parent.stepcss);
+  onFlatCombineChange() {
+    console.log('count');
+    this.nextPageUrl();
+  }
+
+  nextPageUrl() {
+    this.trackerId = this.appService.getTrackerId();
+    this.towerNo = this.appService.getTowerNo();
+    this.seriesNo = this.appService.getSeriesNo();
+    this.groupNo = this.appService.getGroupNo();
+    console.log('Series' + this.seriesNo);
+    // group completed
+    if (!this.groupCompleted()) {
+
+      this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
+                                  + this.seriesNo + '/group/' + (this.groupNo + 1));
+
+    } else if (!this.seriesCompleted()) {
+
+      this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
+                                  + (this.seriesNo + 1)  + '/group/1');
+
+    } else {
+      this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/ystrainer');
+    }
+  }
+
+  groupCompleted() {
+    const noOfFloor = (this.flatGrp.to - this.seriesNo) / 100;
+    if (noOfFloor === (this.noOfFloors - 1)) {
+      return true;
+    }
+    return false;
+  }
+
+  seriesCompleted() {
+    const noOfSeriesInTower = this.towerConfig.getNoOfSeries();
+    if (this.seriesNo === noOfSeriesInTower) {
+      return true;
+    }
+    return false;
+  }
+
+  ngOnDestroy() {
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
+    }
   }
 
   addRemoveInlet(addOnlet, isChecked: boolean) {
