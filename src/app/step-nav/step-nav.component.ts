@@ -11,7 +11,7 @@ export class StepNavComponent implements OnInit {
   constructor(@Inject(AppComponent) private parent: AppComponent) { }
 
   ngOnInit() {
-    console.log(this.parent.stepcss);
+    //console.log(this.parent.stepcss);
   }
 
 }

@@ -43,7 +43,6 @@ export class PrevNextComponent implements OnInit {
 
   nextBtn() {
     this.nextUrl = this.appservice.getNextUrl();
-    console.log(this.nextUrl);
     this.router.navigate([this.nextUrl]);
   }
 }

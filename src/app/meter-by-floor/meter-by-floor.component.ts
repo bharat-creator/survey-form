@@ -18,10 +18,12 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   towerNo: number;
   seriesNo: number;
   groupNo: number;
-  newInletAdded: string;
+
   chooseFlatArray = [];
   chooseInletArray = [];
   selectedInlet = [];
+  newInletAdded: string;
+
   showCombineBox = false;
   combineType = '&';
   firstInlet = '';
@@ -30,7 +32,7 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   flatGrp: FlatGrp;
   typeOfFlat = [{ type: '1BHK' }, { type: '2BHK' }, { type: '3BHK' }, { type: '4BHK' }, { type: 'Villa' }];
   typeOfInlet = [{ inlet: 'K' }, { inlet: 'M' }, { inlet: 'B1' }, { inlet: 'B2' }, { inlet: 'U' }, { inlet: 'S' }];
-  
+
   noOfFloors: number;
   navigationSubscription: any;
 
@@ -46,30 +48,43 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
 
   }
 
-  initialiseInvites() { 
+  // After each routing re-initalise the following things
+  initialiseInvites() {
     this.chooseFlatArray = [];
     this.chooseInletArray = [];
     this.selectedInlet = [];
-    this.magicalLogicFn();
+    this.dropDowmFlatLogic();
     this.flatGrp = this.FlatGrp();
-    this.onFlatCombineChange();
+    this.onFlatGroupChange();
   }
 
-  magicalLogicFn() {
+  // This function is used to make dropdown for flat numbers
+  dropDowmFlatLogic() {
+    // Get series number and if this startFromVal is not defined firstTime
+    // Start by series no
     this.seriesNo = this.appService.getSeriesNo();
-    this.noOfFloors = this.towerConfig.getNoOfFloors();
+    if (this.mtrbyflr.getStartFromVal() === undefined) {
+      this.mtrbyflr.setStartFromVal(this.seriesNo);
+    }
 
-    this.mtrbyflr.setStartFromVal(this.seriesNo);
+    // Set endToVal to last apartment number
+    this.noOfFloors = this.towerConfig.getNoOfFloors();
     this.mtrbyflr.setEndToVal(((this.noOfFloors - 1) * 100) + this.seriesNo);
 
-    for (let i = 1; i <= this.noOfFloors; i++) {
+    // Loop for dropdown will start from startFromVal (it will be different for each group)
+    const startVal = this.mtrbyflr.getStartFromVal();
+    const startIndex = Number((startVal - this.seriesNo) / 100);
+
+    for (let i = startIndex + 1; i <= this.noOfFloors; i++) {
       this.chooseFlatArray.push(((i - 1) * 100) + this.seriesNo);
     }
   }
 
   ngOnInit() {
+
   }
 
+  // return instance of each object in each group
   FlatGrp() {
     return {
       from: this.mtrbyflr.getStartFromVal(),
@@ -77,53 +92,65 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
       flatType: '2BHK',
       jointSeries: 0,
       jointFlat: '',
-      inletGrp: [
-
-      ]
+      inletGrp: []
     };
   }
 
-  onFlatCombineChange() {
-    console.log('count');
-    this.nextPageUrl();
+  // On change function for flat combine/group
+  onFlatGroupChange() {
+    this.mtrbyflr.setStartFromVal(Number(this.flatGrp.to) + 100);
+    this.navPageUrl();
   }
 
-  nextPageUrl() {
+  navPageUrl() {
     this.trackerId = this.appService.getTrackerId();
     this.towerNo = this.appService.getTowerNo();
     this.seriesNo = this.appService.getSeriesNo();
     this.groupNo = this.appService.getGroupNo();
-    console.log('Series' + this.seriesNo);
-    // group completed
+    console.log('series' + this.seriesNo + '---' + this.groupNo);
     if (!this.groupCompleted()) {
-
+      // Next Group Url
       this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
                                   + this.seriesNo + '/group/' + (this.groupNo + 1));
-
     } else if (!this.seriesCompleted()) {
-
+      // Next Series Url
       this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
                                   + (this.seriesNo + 1)  + '/group/1');
-
+      // For new series start val change to next series start
+      this.mtrbyflr.setStartFromVal(this.seriesNo + 1);
     } else {
       this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/ystrainer');
     }
   }
 
+  // If all flats are not selected in dropdowm then move to next group
+  // true means all flats cover move to next series
   groupCompleted() {
-    const noOfFloor = (this.flatGrp.to - this.seriesNo) / 100;
+    const noOfFloor = Number((this.flatGrp.to - this.seriesNo) / 100);
     if (noOfFloor === (this.noOfFloors - 1)) {
       return true;
     }
     return false;
   }
 
+  // If all series cover move to next page for tower
   seriesCompleted() {
     const noOfSeriesInTower = this.towerConfig.getNoOfSeries();
     if (this.seriesNo === noOfSeriesInTower) {
       return true;
     }
     return false;
+  }
+
+  prevUrl() {
+    console.log(this.groupNo);
+    if (this.seriesNo === 1 && this.groupNo === 1) {
+      this.mtrbyflr.setStartFromVal(1);
+      this.appService.setPrevUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/config/');
+    } else if (this.groupNo >= 2) {
+      this.appService.setPrevUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
+                                  + this.seriesNo + '/group/' + (this.groupNo - 1));
+    }
   }
 
   ngOnDestroy() {
