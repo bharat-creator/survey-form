@@ -18,7 +18,7 @@
                   </div>
                   <div class="col-sm-5 col-xs-12">
                     <label for="to">To:</label>
-                    <select class="form-control" id="to" [(ngModel)]="flatGrp.to" (ngModelChange)="onFlatCombineChange()" name="to" required>
+                    <select class="form-control" id="to" [(ngModel)]="flatGrp.to" (ngModelChange)="onFlatGroupChange()" name="to" required>
                       <option *ngFor="let f of chooseFlatArray" [value]="f">{{f}}</option>
                     </select>
                   </div>

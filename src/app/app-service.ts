@@ -1,3 +1,5 @@
+import { SocietyDetail } from './society-details/society-details';
+import { SurveyForm } from './survey-form';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -12,7 +14,10 @@ export class AppService {
   prevUrl: string;
   nextUrl: string;
 
+  surveyForm = {} as SurveyForm;
+
   constructor() {
+
   }
 
   getTrackerId(): number {
@@ -63,4 +68,15 @@ export class AppService {
     this.nextUrl = value;
   }
 
+  setSocietyDetails(value: SocietyDetail) {
+    this.surveyForm.societyDetails = value;
+  }
+
+  getSocietyDetails(): SocietyDetail {
+    return this.surveyForm.societyDetails;
+  }
+
+  resetFormObject() {
+    this.surveyForm = {} as SurveyForm;
+  }
 }
