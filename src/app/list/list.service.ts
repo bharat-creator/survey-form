@@ -10,7 +10,7 @@ import { HttpClient} from '@angular/common/http';
 })
 
 export class ListService {
-  constructor(private httpClient:HttpClient) {  }
+  constructor(private httpClient: HttpClient) {  }
   getListOfSurvey(): Observable<ListOfSurvey[]> {
   return this.httpClient.get<ListOfSurvey[]>('http://stg-eclipse2.nuclious.in/spi/getsurvey');
  }
