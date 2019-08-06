@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
+import { HttpClient} from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ import 'rxjs/add/observable/throw';
 
 export class SocietyDetailsService {
   trackerId: number;
-  constructor(private appService: AppService) {
+  constructor(private appService: AppService,private httpClient:HttpClient) {
 
   }
 
@@ -19,20 +21,7 @@ export class SocietyDetailsService {
     this.trackerId = this.appService.getTrackerId();
     this.appService.setPrevUrl('/list');
     this.appService.setNextUrl('soc/' + this.trackerId + '/tower/1/config');
-    return Observable.of({
-      name: 'zcdczdc',
-      address: 'dadada',
-      pincode: 0,
-      city: 'Bengaluru',
-      state: 'Karnataka',
-      fmName: '',
-      fmPhone: 0,
-      plmbrName: '',
-      plmbrPhone: 0,
-      noOfTowers: 0,
-      noOfApts: 0,
-      noOfTowersForSurvey: 0
-    });
+    return this.httpClient.get<SocietyDetail>('http://stg-eclipse2.nuclious.in/spi/society/detail/'+this.trackerId);
   }
 
 }
