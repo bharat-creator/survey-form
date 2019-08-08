@@ -87,15 +87,16 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
         if (detail.status === true) {
           this.flatGrp = detail.payload;
           console.log('found in database');
-          this.appService.setGroupDetail(this.flatGrp);
           this.flatLoop(this.flatGrp.from, this.flatGrp.to);
           this.onFlatGroupChange();
         } else {
           console.log('Not found');
+          console.log(this.mtrbyflr.getStartFromVal());
+          this.flatLoop(601, 1101);
           console.log(this.flatGrp);
-          this.onFlatGroupChange();
         }
-        
+        this.onFlatGroupChange();
+        this.appService.setGroupDetail(this.flatGrp);
       });
     } else {
       console.log('object');
