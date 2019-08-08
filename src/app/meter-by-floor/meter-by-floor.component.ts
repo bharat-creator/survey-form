@@ -82,13 +82,23 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   afterFloorNoFn() {
     this.dropDowmFlatLogic();
     if (this.appService.getGroupDataFromObj() === undefined) {
-      this.mtrbyflr.getMeterByFloorDetail().subscribe((detail) => {
-        this.flatGrp = detail;
-        this.appService.setGroupDetail(this.flatGrp);
-        this.flatLoop(this.flatGrp.from, this.flatGrp.to);
-        this.onFlatGroupChange();
+      console.log('database');
+      this.mtrbyflr.getMeterByFloorDetail(this.trackerId, this.towerNo, this.seriesNo, this.groupNo).subscribe((detail) => {
+        if (detail.status === true) {
+          this.flatGrp = detail.payload;
+          console.log('found in database');
+          this.appService.setGroupDetail(this.flatGrp);
+          this.flatLoop(this.flatGrp.from, this.flatGrp.to);
+          this.onFlatGroupChange();
+        } else {
+          console.log('Not found');
+          console.log(this.flatGrp);
+          this.onFlatGroupChange();
+        }
+        
       });
     } else {
+      console.log('object');
       this.flatGrp = this.appService.getGroupDataFromObj();
       console.log('From' + this.flatGrp.from + ',' + 'To' + this.flatGrp.to);
       this.flatLoop(this.flatGrp.from, this.flatGrp.to);
@@ -108,7 +118,8 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
 
     const startVal = this.mtrbyflr.getStartFromVal();
     const endVal = this.mtrbyflr.getEndToVal();
-    //this.flatLoop(startVal, endVal);
+    //console.log(endVal);
+    this.flatLoop(startVal, endVal);
   }
 
   flatLoop(startVal: number, endVal: number) {

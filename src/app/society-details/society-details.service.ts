@@ -20,11 +20,12 @@ export class SocietyDetailsService {
     return this.network.getData('http://stg-eclipse2.nuclious.in/spi/society/detail/' + trackerId);
   }
 
-  postSocietyDetails(value: SocietyDetail): Observable<any> {
+  postSocietyDetails(value: SocietyDetail, trackerIdNum: number): Observable<any> {
     // this.trackerId = this.appService.getTrackerId();
-    const body = new FormData();
-    body.append('trackerId', JSON.stringify(this.trackerId));
-    body.append('payload', JSON.stringify(value));
-    return this.network.postData('http://stg-eclipse2.nuclious.in/spi/society-detail/save', value);
+    const data = {
+      trackerId: trackerIdNum,
+      payload: value
+    };
+    return this.network.postData('http://stg-eclipse2.nuclious.in/spi/society-detail/save', data);
   }
 }
