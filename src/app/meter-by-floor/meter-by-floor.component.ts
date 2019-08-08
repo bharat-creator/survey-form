@@ -36,8 +36,8 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   navigationSubscription: any;
 
   constructor(private parent: AppComponent, private mtrbyflr: MeterByFloorService,
-              private towerConfigService: TowerConfigService, private appService: AppService,
-              private router: Router) {
+    private towerConfigService: TowerConfigService, private appService: AppService,
+    private router: Router) {
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {
@@ -60,15 +60,16 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
     this.selectedInlet = [];
     this.flatGrp = this.FlatGrp();
 
-    // Number of floor And Number of series required
+
     if (this.appService.getNoOfFloors(this.towerNo) === undefined) {
+
       this.towerConfigService.getTowerDetail(this.trackerId, this.towerNo).subscribe((detail) => {
         if (detail.status === true) {
           const towerConfig = detail.payload;
           this.appService.setTowerDetails(towerConfig, this.towerNo);
           this.afterFloorNoFn();
         } else {
-           // Redirect To Tower Page
+          // Redirect To Tower Page
         }
       });
     } else {
@@ -80,38 +81,44 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
 
   afterFloorNoFn() {
     this.dropDowmFlatLogic();
-    this.mtrbyflr.getMeterByFloorDetail().subscribe((detail) => {
-      this.flatGrp = detail;
-      console.log(this.flatGrp);
-      this.appService.setGroupDetail(this.flatGrp);
+    if (this.appService.getGroupDataFromObj() === undefined) {
+      this.mtrbyflr.getMeterByFloorDetail().subscribe((detail) => {
+        this.flatGrp = detail;
+        this.appService.setGroupDetail(this.flatGrp);
+        this.flatLoop(this.flatGrp.from, this.flatGrp.to);
+        this.onFlatGroupChange();
+      });
+    } else {
+      this.flatGrp = this.appService.getGroupDataFromObj();
+      console.log('From' + this.flatGrp.from + ',' + 'To' + this.flatGrp.to);
+      this.flatLoop(this.flatGrp.from, this.flatGrp.to);
       this.onFlatGroupChange();
-    });
+    }
   }
 
-  // This function is used to make dropdown for flat numbers
-  dropDowmFlatLogic() {
-    // Get series number and if this startFromVal is not defined firstTime
-    // Start by series no
-    // this.seriesNo = this.appService.getSeriesNo();
 
+  dropDowmFlatLogic() {
     if (this.mtrbyflr.getStartFromVal() === undefined || this.groupNo === 1) {
       this.mtrbyflr.setStartFromVal(this.seriesNo);
     }
 
     // Set endToVal to last apartment number
     this.noOfFloors = this.appService.getNoOfFloors(this.towerNo);
-
-    // console.log('NoOfFloors' + this.noOfFloors);
     this.mtrbyflr.setEndToVal(((this.noOfFloors - 1) * 100) + this.seriesNo);
 
-    // Loop for dropdown will start from startFromVal (it will be different for each group)
     const startVal = this.mtrbyflr.getStartFromVal();
-    // console.log('startVal' + startVal);
+    const endVal = this.mtrbyflr.getEndToVal();
+    //this.flatLoop(startVal, endVal);
+  }
+
+  flatLoop(startVal: number, endVal: number) {
+    this.chooseFlatArray = [];
     const startIndex = Number((startVal - this.seriesNo) / 100);
-    // console.log('startIndex' + startIndex);
-    for (let i = startIndex + 1; i <= this.noOfFloors; i++) {
-      this.chooseFlatArray.push(((i - 1) * 100) + this.seriesNo);
+    const endIndex = Number((endVal - this.seriesNo) / 100);
+    for (let i = startIndex + 1; i <= endIndex + 1; i++) {
+      this.chooseFlatArray.push(Number(((i - 1) * 100) + this.seriesNo));
     }
+    console.log(this.chooseFlatArray);
   }
 
   ngOnInit() {
@@ -133,25 +140,21 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
 
   // On change function for flat combine/group
   onFlatGroupChange() {
-    //this.mtrbyflr.setStartFromVal(Number(this.flatGrp.to) + 100);
     this.navPageUrl();
     this.prevUrl();
   }
 
   navPageUrl() {
-    // console.log('series' + this.seriesNo + '---' + this.groupNo);
     if (!this.groupCompleted()) {
-      // Next Group Url
-      // console.log("Group Not Completed");
+
       this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
-                                  + this.seriesNo + '/group/' + (this.groupNo + 1));
+        + this.seriesNo + '/group/' + (this.groupNo + 1));
       this.mtrbyflr.setStartFromVal(Number(this.flatGrp.to) + 100);
     } else if (!this.seriesCompleted()) {
-      // Next Series Url
+
       this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
-                                  + (this.seriesNo + 1)  + '/group/1');
-      // For new series start val change to next series start
-      // console.log("Series Not Completed");
+        + (this.seriesNo + 1) + '/group/1');
+
       this.mtrbyflr.setStartFromVal(this.seriesNo + 1);
     } else {
       this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/ystrainer');
@@ -159,15 +162,15 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   }
 
   prevUrl() {
-    // console.log(this.groupNo);
+
     if (this.seriesNo === 1 && this.groupNo === 1) {
       this.appService.setPrevUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/config/');
     } else if (this.groupNo > 1) {
       this.appService.setPrevUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
-                                  + this.seriesNo + '/group/' + (this.groupNo - 1));
+        + this.seriesNo + '/group/' + (this.groupNo - 1));
     } else if (this.seriesNo > 1 && this.groupNo === 1) {
       this.appService.setPrevUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
-                                  + (this.seriesNo - 1) + '/group/' + 1);
+        + (this.seriesNo - 1) + '/group/' + 1);
     }
   }
 
@@ -175,7 +178,7 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   // true means all flats cover move to next series
   groupCompleted() {
     const noOfFloor = Number((this.flatGrp.to - this.seriesNo) / 100);
-    //// console.log("No of Floor"+noOfFloor);
+
     if (noOfFloor === (this.noOfFloors - 1)) {
       return true;
     }
@@ -225,7 +228,6 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
       this.removeInlet(this.firstInlet);
       this.removeInlet(this.secondInlet);
     }
-    // console.log(this.selectedInlet);
   }
 
   removeCombineInletArr(inlet: string) {
@@ -265,7 +267,7 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
         }
         this.newInletAdded = inletArr[0];
         this.addNewInlet();
-        
+
         // for second inlet
         this.removeCombineInletArr(inletArr[1]);
         const secondSelectIndex = this.selectedInlet.indexOf(inletArr[1]);
@@ -274,9 +276,9 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
         }
         this.newInletAdded = inletArr[1];
         this.addNewInlet();
-        
+
       } else {
-        this.removeCombineInletArr(rInlet); 
+        this.removeCombineInletArr(rInlet);
         const secondSelectIndex = this.selectedInlet.indexOf(rInlet);
         if (index > -1) {
           this.selectedInlet.splice(secondSelectIndex, 1);

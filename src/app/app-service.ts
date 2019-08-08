@@ -139,28 +139,51 @@ export class AppService {
     return this.surveyForm.towers;
   }
 
+
   setGroupDetail(value: FlatGrp) {
     this.flatgrp = value;
-    // const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === towerNum);
-    // if (towerIndex > -1) {
-    //   const seriesLength = this.surveyForm.towers[towerIndex].seriesGrp.length;
-    //   if (seriesLength === 0) {
-    //     this.surveyForm.towers[towerIndex].seriesGrp.push({ seriesNo: seriesNum, flatGrp: []});
-    //     this.surveyForm.towers[towerIndex].seriesGrp[seriesLength].flatGrp.push(value);
-    //   } else {
-    //     const seriesindex = this.surveyForm.towers[towerIndex].seriesGrp.findIndex(x => x.seriesNo === seriesNum);
-    //     if ( seriesindex > -1) {
-    //       this.surveyForm.towers[towerIndex].seriesGrp[seriesindex].flatGrp.push(value);
-    //     } else {
-    //       this.surveyForm.towers[towerIndex].seriesGrp.push({ seriesNo: seriesNum, flatGrp: []});
-    //       this.surveyForm.towers[towerIndex].seriesGrp[seriesLength].flatGrp.push(value);
-    //     }
-    //   }
-    // }
+    const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === this.towerNo);
+    if (towerIndex > -1) {
+      const seriesLength = this.surveyForm.towers[towerIndex].seriesGrp.length;
+      if (seriesLength === 0) {
+        this.surveyForm.towers[towerIndex].seriesGrp.push({ seriesNo: this.seriesNo, flatGrp: []});
+        this.surveyForm.towers[towerIndex].seriesGrp[seriesLength].flatGrp.push(value);
+      } else {
+        const seriesindex = this.surveyForm.towers[towerIndex].seriesGrp.findIndex(x => x.seriesNo === this.seriesNo);
+        if ( seriesindex > -1) {
+          this.surveyForm.towers[towerIndex].seriesGrp[seriesindex].flatGrp.push(value);
+        } else {
+          this.surveyForm.towers[towerIndex].seriesGrp.push({ seriesNo: this.seriesNo, flatGrp: []});
+          this.surveyForm.towers[towerIndex].seriesGrp[seriesLength].flatGrp.push(value);
+        }
+      }
+    }
   }
 
   getGroupDetails(): FlatGrp {
     return this.flatgrp;
+  }
+
+  getGroupDataFromObj(): FlatGrp {
+    const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === this.towerNo);
+    if (towerIndex > -1) {
+      const seriesLength = this.surveyForm.towers[towerIndex].seriesGrp.length;
+      if (seriesLength === 0) {
+        return undefined;
+      } else {
+        const seriesIndex = this.surveyForm.towers[towerIndex].seriesGrp.findIndex(x => x.seriesNo === this.seriesNo);
+        if ( seriesIndex > -1) {
+          const groupIndex = this.surveyForm.towers[towerIndex].seriesGrp[seriesIndex].flatGrp.findIndex(x => x.groupNo === this.groupNo);
+          if ( groupIndex > -1) {
+            return this.surveyForm.towers[towerIndex].seriesGrp[seriesIndex].flatGrp[groupIndex];
+          } else {
+            return undefined;
+          }
+        } else {
+          return undefined;
+        }
+      }
+    }
   }
 
   getSurveyFormObj() {
