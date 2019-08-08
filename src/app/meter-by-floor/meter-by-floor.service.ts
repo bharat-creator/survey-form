@@ -15,6 +15,7 @@ export class MeterByFloorService {
 
   private startFrom: number;
   private endTo: number;
+  private swapFromTo: number;
   trackerId: number;
   towerNo: number;
   seriesNo: number;
@@ -48,6 +49,14 @@ export class MeterByFloorService {
 
   setStartFromVal(value: number) {
     this.startFrom = value;
+  }
+
+  getSwapFromTo(): number {
+    return this.swapFromTo;
+  }
+
+  setSwapFromTo(value: number) {
+    this.swapFromTo = value;
   }
 
   getMeterByFloorDetail(): Observable<FlatGrp>{

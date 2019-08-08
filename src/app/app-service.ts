@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { SeriesGrp, FlatGrp } from './meter-by-floor/series-group';
 import { TowerConfig } from './tower-config/tower-config';
 import { SocietyDetail } from './society-details/society-details';
@@ -85,13 +86,29 @@ export class AppService {
   }
 
   getNoOfFloors(towerNum: number): number {
-    const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === towerNum);
-    return this.surveyForm.towers[towerIndex].towerDetails.noOfFloor;
+    if (this.surveyForm === undefined || this.surveyForm.towers === undefined) {
+      return undefined;
+    } else {
+      const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === towerNum);
+      if (towerIndex > -1) {
+        return this.surveyForm.towers[towerIndex].towerDetails.noOfFloor;
+      } else {
+        return undefined;
+      }
+    }
   }
 
   getNoOfSeries(towerNum: number): number {
-    const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === towerNum);
-    return this.surveyForm.towers[towerIndex].towerDetails.noOfSeries;
+    if (this.surveyForm === undefined || this.surveyForm.towers === undefined){
+      return 0;
+    } else {
+      const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === towerNum);
+      if (towerIndex > -1) {
+        return this.surveyForm.towers[towerIndex].towerDetails.noOfSeries;
+      } else {
+        return 0;
+      }
+    }
   }
 
   setTowerDetails(value: TowerConfig, towerNum: number) {
@@ -105,9 +122,17 @@ export class AppService {
     }
   }
 
-  getTowerDetails(towerNum: number) {
-    const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === towerNum);
-    return this.surveyForm.towers[towerIndex].towerDetails;
+  getTowerDetails(towerNum: number): TowerConfig {
+    if (this.surveyForm.towers === undefined) {
+      return undefined;
+    } else if (this.surveyForm.towers.length > 0) {
+      const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === towerNum);
+      if (towerIndex > -1) {
+        return this.surveyForm.towers[towerIndex].towerDetails;
+      } else {
+        return undefined;
+      }
+    }
   }
 
   getAllTowersDetails(index: number): TowerGroup[] {

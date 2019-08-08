@@ -36,7 +36,7 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   navigationSubscription: any;
 
   constructor(private parent: AppComponent, private mtrbyflr: MeterByFloorService,
-              private towerConfig: TowerConfigService, private appService: AppService,
+              private towerConfigService: TowerConfigService, private appService: AppService,
               private router: Router) {
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       // If it is a NavigationEnd event re-initalise the component
@@ -58,13 +58,32 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
     this.chooseFlatArray = [];
     this.chooseInletArray = [];
     this.selectedInlet = [];
-
-    this.dropDowmFlatLogic();
     this.flatGrp = this.FlatGrp();
+
+    // Number of floor And Number of series required
+    if (this.appService.getNoOfFloors(this.towerNo) === undefined) {
+      this.towerConfigService.getTowerDetail(this.trackerId, this.towerNo).subscribe((detail) => {
+        if (detail.status === true) {
+          const towerConfig = detail.payload;
+          this.appService.setTowerDetails(towerConfig, this.towerNo);
+          this.afterFloorNoFn();
+        } else {
+           // Redirect To Tower Page
+        }
+      });
+    } else {
+      this.noOfFloors = this.appService.getNoOfFloors(this.towerNo);
+      this.afterFloorNoFn();
+    }
+
+  }
+
+  afterFloorNoFn() {
+    this.dropDowmFlatLogic();
     this.mtrbyflr.getMeterByFloorDetail().subscribe((detail) => {
       this.flatGrp = detail;
-      this.appService.setGroupDetail(this.flatGrp);
       console.log(this.flatGrp);
+      this.appService.setGroupDetail(this.flatGrp);
       this.onFlatGroupChange();
     });
   }
@@ -73,22 +92,23 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   dropDowmFlatLogic() {
     // Get series number and if this startFromVal is not defined firstTime
     // Start by series no
-    this.seriesNo = this.appService.getSeriesNo();
-    console.log('series no' + this.seriesNo);
+    // this.seriesNo = this.appService.getSeriesNo();
+
     if (this.mtrbyflr.getStartFromVal() === undefined || this.groupNo === 1) {
       this.mtrbyflr.setStartFromVal(this.seriesNo);
     }
 
     // Set endToVal to last apartment number
     this.noOfFloors = this.appService.getNoOfFloors(this.towerNo);
-    console.log('NoOfFloors' + this.noOfFloors);
+
+    // console.log('NoOfFloors' + this.noOfFloors);
     this.mtrbyflr.setEndToVal(((this.noOfFloors - 1) * 100) + this.seriesNo);
 
     // Loop for dropdown will start from startFromVal (it will be different for each group)
     const startVal = this.mtrbyflr.getStartFromVal();
-    console.log('startVal' + startVal);
+    // console.log('startVal' + startVal);
     const startIndex = Number((startVal - this.seriesNo) / 100);
-    console.log('startIndex' + startIndex);
+    // console.log('startIndex' + startIndex);
     for (let i = startIndex + 1; i <= this.noOfFloors; i++) {
       this.chooseFlatArray.push(((i - 1) * 100) + this.seriesNo);
     }
@@ -115,13 +135,14 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   onFlatGroupChange() {
     //this.mtrbyflr.setStartFromVal(Number(this.flatGrp.to) + 100);
     this.navPageUrl();
+    this.prevUrl();
   }
 
   navPageUrl() {
-    console.log('series' + this.seriesNo + '---' + this.groupNo);
+    // console.log('series' + this.seriesNo + '---' + this.groupNo);
     if (!this.groupCompleted()) {
       // Next Group Url
-      console.log("Group Not Completed");
+      // console.log("Group Not Completed");
       this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
                                   + this.seriesNo + '/group/' + (this.groupNo + 1));
       this.mtrbyflr.setStartFromVal(Number(this.flatGrp.to) + 100);
@@ -130,10 +151,23 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
       this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
                                   + (this.seriesNo + 1)  + '/group/1');
       // For new series start val change to next series start
-      console.log("Series Not Completed");
+      // console.log("Series Not Completed");
       this.mtrbyflr.setStartFromVal(this.seriesNo + 1);
     } else {
       this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/ystrainer');
+    }
+  }
+
+  prevUrl() {
+    // console.log(this.groupNo);
+    if (this.seriesNo === 1 && this.groupNo === 1) {
+      this.appService.setPrevUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/config/');
+    } else if (this.groupNo > 1) {
+      this.appService.setPrevUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
+                                  + this.seriesNo + '/group/' + (this.groupNo - 1));
+    } else if (this.seriesNo > 1 && this.groupNo === 1) {
+      this.appService.setPrevUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
+                                  + (this.seriesNo - 1) + '/group/' + 1);
     }
   }
 
@@ -141,7 +175,7 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   // true means all flats cover move to next series
   groupCompleted() {
     const noOfFloor = Number((this.flatGrp.to - this.seriesNo) / 100);
-    //console.log("No of Floor"+noOfFloor);
+    //// console.log("No of Floor"+noOfFloor);
     if (noOfFloor === (this.noOfFloors - 1)) {
       return true;
     }
@@ -157,16 +191,7 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  prevUrl() {
-    console.log(this.groupNo);
-    if (this.seriesNo === 1 && this.groupNo === 1) {
-      this.mtrbyflr.setStartFromVal(1);
-      this.appService.setPrevUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/config/');
-    } else if (this.groupNo >= 2) {
-      this.appService.setPrevUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
-                                  + this.seriesNo + '/group/' + (this.groupNo - 1));
-    }
-  }
+
 
   ngOnDestroy() {
     if (this.navigationSubscription) {
@@ -200,7 +225,7 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
       this.removeInlet(this.firstInlet);
       this.removeInlet(this.secondInlet);
     }
-    console.log(this.selectedInlet);
+    // console.log(this.selectedInlet);
   }
 
   removeCombineInletArr(inlet: string) {

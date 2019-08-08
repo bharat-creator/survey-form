@@ -23,10 +23,18 @@ export class TowerConfigComponent implements OnInit {
 
     this.towerConfig = this.towerConfigFn();
 
-    this.towerConfigService.getTowerDetail(this.trackerId, this.towerNo).subscribe((detail) => {
-      this.towerConfig = detail;
-      this.appService.setTowerDetails(this.towerConfig, this.towerNo);
-    });
+    if (this.appService.getTowerDetails(this.towerNo) === undefined) {
+      console.log('From Database');
+      this.towerConfigService.getTowerDetail(this.trackerId, this.towerNo).subscribe((detail) => {
+        if (detail.status === true) {
+          this.towerConfig = detail.payload;
+          this.appService.setTowerDetails(this.towerConfig, this.towerNo);
+        }
+      });
+    } else {
+      console.log('From Object');
+      this.towerConfig = this.appService.getTowerDetails(this.towerNo);
+    }
 
     this.appService.setPrevUrl('soc/' + this.trackerId + '/detail/');
     this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/1/group/1');
