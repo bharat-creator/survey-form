@@ -1,9 +1,9 @@
 import { TowerConfig, PlumbingStructure } from './tower-config';
-import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
-import { AppService } from '../app-service';
+import { NetworkService } from '../network.service';
+import { Injectable } from '@angular/core';
 
 
 @Injectable({
@@ -19,19 +19,18 @@ export class TowerConfigService {
   towerNo: number;
   trackerId: number;
 
-  constructor(private appService: AppService) {
+  constructor(private network: NetworkService) {
       this.towerConfig = {
-          towerName: 'Tower A',
-          noOfFloor: 12,
-          noOfSeries: 4,
+          towerName: '',
+          noOfFloor: 0,
+          noOfSeries: 0,
           replumbingReq: true,
           ringMainsChanged: false,
           plumbingStructure: [
-              { name: 'Ring Mains', type: 'cpvc', size: '1"'},
-              { name: 'Down Comers', type: 'cpvc', size: '1"'},
-              { name: 'Tapping', type: 'cpvc', size: '1"'}
-          ],
-          seriesGrp:[]
+              { name: 'Ring Mains', type: '', size: ''},
+              { name: 'Down Comers', type: '', size: ''},
+              { name: 'Tapping', type: '', size: ''}
+          ]
       };
   }
 
@@ -40,7 +39,6 @@ export class TowerConfigService {
   }
 
   getNoOfFloors(): number {
-    this.noOfFloor = this.towerConfig.noOfFloor;
     return this.noOfFloor;
   }
 
@@ -49,15 +47,14 @@ export class TowerConfigService {
   }
 
   getNoOfSeries(): number {
-    this.noOfSeries = this.towerConfig.noOfSeries;
     return this.noOfSeries;
   }
 
-  getTowerDetail() {
-    this.trackerId = this.appService.getTrackerId();
-    this.towerNo = this.appService.getTowerNo();
-    this.appService.setPrevUrl('soc/' + this.trackerId + '/detail/');
-    this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/1/group/1');
-    return this.towerConfig;
+  getTowerDetail(trackerId: number, towerNo: number): Observable<any> {
+    return Observable.of(this.towerConfig);
+  }
+
+  postTowerConfigDetails(value: TowerConfig): Observable<any> {
+    return Observable.of(true);
   }
 }

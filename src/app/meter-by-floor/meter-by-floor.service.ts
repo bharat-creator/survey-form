@@ -18,9 +18,21 @@ export class MeterByFloorService {
   trackerId: number;
   towerNo: number;
   seriesNo: number;
-
+  flatGrp: FlatGrp;
 
   constructor(private appService: AppService) {
+  }
+
+  FlatGrp(): FlatGrp {
+    return {
+      groupNo: this.appService.getGroupNo(),
+      from: this.startFrom,
+      to: this.endTo,
+      flatType: '4BHK',
+      jointSeries: 0,
+      jointFlat: '',
+      inletGrp: []
+    };
   }
 
   getEndToVal(): number {
@@ -38,11 +50,12 @@ export class MeterByFloorService {
     this.startFrom = value;
   }
 
-  getMeterByFloorDetail(){
-    this.trackerId = this.appService.getTrackerId();
-    this.towerNo = this.appService.getTowerNo();
-    this.seriesNo = this.appService.getSeriesNo();
-    console.log(this.seriesNo);
+  getMeterByFloorDetail(): Observable<FlatGrp>{
+    // this.trackerId = this.appService.getTrackerId();
+    // this.towerNo = this.appService.getTowerNo();
+    // this.seriesNo = this.appService.getSeriesNo();
+
+    return Observable.of(this.FlatGrp());
   }
 
 

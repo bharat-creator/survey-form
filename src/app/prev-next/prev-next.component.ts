@@ -2,6 +2,8 @@ import { SocietyDetailsService } from './../society-details/society-details.serv
 import { AppService } from './../app-service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Observable, observable } from 'rxjs';
+import { TowerConfigService } from '../tower-config/tower-config.service';
 
 @Component({
   selector: 'app-prev-next',
@@ -18,30 +20,30 @@ export class PrevNextComponent implements OnInit {
   prevUrl: string;
   nextUrl: string;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private appservice: AppService,
-              private societyDetailService: SocietyDetailsService) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private appService: AppService,
+              private societyDetailService: SocietyDetailsService, private towerConfig: TowerConfigService) {
 
     this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
       this.trackerId = parseInt(params.get('trackerId'), 10);
 
-      if (this.appservice.getTrackerId() === undefined) {
-        this.appservice.setTrackerId(Number(this.trackerId));
-        this.appservice.resetFormObject(); // No Need Of Reseting
-      } else if (this.appservice.getTrackerId() !== this.trackerId) {
-        this.appservice.setTrackerId(Number(this.trackerId));
-        this.appservice.resetFormObject();
+      if (this.appService.getTrackerId() === undefined) {
+        this.appService.setTrackerId(Number(this.trackerId));
+        this.appService.resetSurveyFormObj(); // No Need Of Reseting
+      } else if (this.appService.getTrackerId() !== this.trackerId) {
+        this.appService.setTrackerId(Number(this.trackerId));
+        this.appService.resetSurveyFormObj();
       } else {
-        this.appservice.setTrackerId(Number(this.trackerId));
+        this.appService.setTrackerId(Number(this.trackerId));
       }
 
       this.towerNo = parseInt(params.get('towerNo'), 10);
-      this.appservice.setTowerNo(Number(this.towerNo));
+      this.appService.setTowerNo(Number(this.towerNo));
 
       this.seriesNo = parseInt(params.get('seriesNo'), 10);
-      this.appservice.setSeriesNo(Number(this.seriesNo));
+      this.appService.setSeriesNo(Number(this.seriesNo));
 
       this.groupNo = parseInt(params.get('groupNo'), 10);
-      this.appservice.setGroupNo(Number(this.groupNo));
+      this.appService.setGroupNo(Number(this.groupNo));
     });
   }
 
@@ -49,23 +51,36 @@ export class PrevNextComponent implements OnInit {
   }
 
   prevBtn() {
-    this.prevUrl = this.appservice.getPrevUrl();
+    this.prevUrl = this.appService.getPrevUrl();
     this.router.navigate([this.prevUrl]);
   }
 
   nextBtn() {
-    const saved: any = this.save();
-    if (saved) {
-      this.nextUrl = this.appservice.getNextUrl();
+    this.save().subscribe((detail) => {
+      console.log(detail);
+      this.nextUrl = this.appService.getNextUrl();
       this.router.navigate([this.nextUrl]);
-    }
+    },
+    (error) => {
+      console.log(error);
+    });
   }
 
-  save(): any {
+
+  save(): Observable<any> {
     const urlArr = this.router.url.split('/');
-    if (urlArr[3] === 'detail')  {
-      const value = this.appservice.getSocietyDetails();
+    if (urlArr[3] === 'detail') {
+      const value = this.appService.getSocietyDetails();
       return this.societyDetailService.postSocietyDetails(value);
+    } else if (urlArr[3] === 'tower' && urlArr[5] === 'config') {
+      const value = this.appService.getTowerDetails(this.towerNo);
+      console.log(value);
+      return this.towerConfig.postTowerConfigDetails(value);
+    } else if (urlArr[3] === 'tower' && urlArr[5] === 'series') {
+      const value = this.appService.getGroupDetails();
+      console.log(value);
+      // return true;
     }
+    // return false;
   }
 }

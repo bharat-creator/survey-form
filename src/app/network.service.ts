@@ -1,60 +1,58 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions, URLSearchParams, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/throw';
+import { HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
+import { catchError, retry } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 // Observable class extensions
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
 
-// Observable operators
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
 import { environment } from '../environments/environment';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json'
+  })
+};
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class NetworkService {
 
-  headers: Headers;
-  options: RequestOptions;
   urlPrefix: string;
-  constructor(private http: Http) {
-    this.urlPrefix = environment.urlPrefix;
+  constructor(private httpClient: HttpClient) {
+    this.urlPrefix = ''; // environment.urlPrefix;
   }
 
-  getData(url: string, username): Observable<any> {
-    let header = new Headers();
-    let option = new RequestOptions({ headers: header });
-    return this.http
-      .get(this.urlPrefix + url, option)
-      .map(this.extractData)
-      .catch(this.handleError);
+  getData(url: string): Observable<any> {
+    return this.httpClient.get<any>(this.urlPrefix + url, httpOptions)
+           .pipe(catchError(this.handleError));
   }
 
-  postData(url: string, param: any, username): Observable<any> {
-    let header = new Headers({ 'auth-token': 'edb748be-015a-4b12-9a3e-92c384016ece' });
-    header.append('username', username);
-    let option = new RequestOptions({ method: 'post', headers: header });
-    let body = JSON.stringify(param);
-    return this.http
-      .post(this.urlPrefix + url, param, option)
-      .map(this.extractData)
-      .catch(this.handleError);
+  postData(url: string, param: any): Observable<any> {
+    const body = JSON.stringify(param);
+    return this.httpClient.post<any>(this.urlPrefix + url, body, httpOptions)
+            .pipe(catchError(this.handleError));
   }
 
-  private extractData(res: Response) {
-    let body = res.json();
-    return body || {};
-  }
-  private handleError(error: any) {
-    let errMsg = (error.message) ? error.message :
-      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-    return Observable.throw(error._body);
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+    }
+    // return an observable with a user-facing error message
+    return throwError(
+      'Something bad happened; please try again later.');
   }
 }

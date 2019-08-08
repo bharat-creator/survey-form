@@ -5,7 +5,6 @@ export interface TowerConfig {
     replumbingReq: boolean;
     ringMainsChanged: boolean;
     plumbingStructure: PlumbingStructure[];
-    seriesGrp: any;
 }
 
 export interface PlumbingStructure {

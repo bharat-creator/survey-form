@@ -4,6 +4,7 @@ export interface SeriesGrp {
 }
 
 export interface FlatGrp {
+    groupNo: number;
     from: number;
     to: number;
     flatType: string;

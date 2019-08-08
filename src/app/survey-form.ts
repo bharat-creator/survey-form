@@ -7,6 +7,7 @@ export interface SurveyForm {
 }
 
 export interface TowerGroup {
+    towerNo: number;
     towerDetails: TowerConfig;
-    seriesGrp: SeriesGrp;
+    seriesGrp: SeriesGrp[];
 }

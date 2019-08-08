@@ -4,7 +4,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SeriesGrp, FlatGrp, InletGrp } from './series-group';
 import { AppComponent } from '../app.component';
 import { TowerConfigService } from '../tower-config/tower-config.service';
-import { noComponentFactoryError } from '@angular/core/src/linker/component_factory_resolver';
 import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
@@ -50,12 +49,24 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
 
   // After each routing re-initalise the following things
   initialiseInvites() {
+
+    this.trackerId = this.appService.getTrackerId();
+    this.towerNo = this.appService.getTowerNo();
+    this.seriesNo = this.appService.getSeriesNo();
+    this.groupNo = this.appService.getGroupNo();
+
     this.chooseFlatArray = [];
     this.chooseInletArray = [];
     this.selectedInlet = [];
+
     this.dropDowmFlatLogic();
     this.flatGrp = this.FlatGrp();
-    this.onFlatGroupChange();
+    this.mtrbyflr.getMeterByFloorDetail().subscribe((detail) => {
+      this.flatGrp = detail;
+      this.appService.setGroupDetail(this.flatGrp);
+      console.log(this.flatGrp);
+      this.onFlatGroupChange();
+    });
   }
 
   // This function is used to make dropdown for flat numbers
@@ -63,18 +74,21 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
     // Get series number and if this startFromVal is not defined firstTime
     // Start by series no
     this.seriesNo = this.appService.getSeriesNo();
-    if (this.mtrbyflr.getStartFromVal() === undefined) {
+    console.log('series no' + this.seriesNo);
+    if (this.mtrbyflr.getStartFromVal() === undefined || this.groupNo === 1) {
       this.mtrbyflr.setStartFromVal(this.seriesNo);
     }
 
     // Set endToVal to last apartment number
-    this.noOfFloors = this.towerConfig.getNoOfFloors();
+    this.noOfFloors = this.appService.getNoOfFloors(this.towerNo);
+    console.log('NoOfFloors' + this.noOfFloors);
     this.mtrbyflr.setEndToVal(((this.noOfFloors - 1) * 100) + this.seriesNo);
 
     // Loop for dropdown will start from startFromVal (it will be different for each group)
     const startVal = this.mtrbyflr.getStartFromVal();
+    console.log('startVal' + startVal);
     const startIndex = Number((startVal - this.seriesNo) / 100);
-
+    console.log('startIndex' + startIndex);
     for (let i = startIndex + 1; i <= this.noOfFloors; i++) {
       this.chooseFlatArray.push(((i - 1) * 100) + this.seriesNo);
     }
@@ -87,6 +101,7 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   // return instance of each object in each group
   FlatGrp() {
     return {
+      groupNo: this.groupNo,
       from: this.mtrbyflr.getStartFromVal(),
       to: this.mtrbyflr.getEndToVal(),
       flatType: '2BHK',
@@ -98,25 +113,24 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
 
   // On change function for flat combine/group
   onFlatGroupChange() {
-    this.mtrbyflr.setStartFromVal(Number(this.flatGrp.to) + 100);
+    //this.mtrbyflr.setStartFromVal(Number(this.flatGrp.to) + 100);
     this.navPageUrl();
   }
 
   navPageUrl() {
-    this.trackerId = this.appService.getTrackerId();
-    this.towerNo = this.appService.getTowerNo();
-    this.seriesNo = this.appService.getSeriesNo();
-    this.groupNo = this.appService.getGroupNo();
     console.log('series' + this.seriesNo + '---' + this.groupNo);
     if (!this.groupCompleted()) {
       // Next Group Url
+      console.log("Group Not Completed");
       this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
                                   + this.seriesNo + '/group/' + (this.groupNo + 1));
+      this.mtrbyflr.setStartFromVal(Number(this.flatGrp.to) + 100);
     } else if (!this.seriesCompleted()) {
       // Next Series Url
       this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'
                                   + (this.seriesNo + 1)  + '/group/1');
       // For new series start val change to next series start
+      console.log("Series Not Completed");
       this.mtrbyflr.setStartFromVal(this.seriesNo + 1);
     } else {
       this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/ystrainer');
@@ -127,6 +141,7 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   // true means all flats cover move to next series
   groupCompleted() {
     const noOfFloor = Number((this.flatGrp.to - this.seriesNo) / 100);
+    //console.log("No of Floor"+noOfFloor);
     if (noOfFloor === (this.noOfFloors - 1)) {
       return true;
     }
@@ -135,7 +150,7 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
 
   // If all series cover move to next page for tower
   seriesCompleted() {
-    const noOfSeriesInTower = this.towerConfig.getNoOfSeries();
+    const noOfSeriesInTower = this.appService.getNoOfSeries(this.towerNo);
     if (this.seriesNo === noOfSeriesInTower) {
       return true;
     }

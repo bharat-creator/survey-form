@@ -49,7 +49,7 @@ export class SocietyDetailsComponent implements OnInit {
 
     if (this.appService.getSocietyDetails() === undefined) {
       console.log('From Database');
-      this.societyDetailService.getSocietyDetail().subscribe((socdetail) => {
+      this.societyDetailService.getSocietyDetail(this.trackerId).subscribe((socdetail) => {
         this.societyDetails = socdetail;
         this.appService.setSocietyDetails(this.societyDetails);
       });
