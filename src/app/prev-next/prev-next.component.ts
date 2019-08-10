@@ -59,7 +59,7 @@ export class PrevNextComponent implements OnInit {
 
   nextBtn() {
     this.save().subscribe((detail) => {
-      console.log(detail);
+      //console.log(detail);
       this.nextUrl = this.appService.getNextUrl();
       this.router.navigate([this.nextUrl]);
     },
@@ -73,15 +73,15 @@ export class PrevNextComponent implements OnInit {
     const urlArr = this.router.url.split('/');
     if (urlArr[3] === 'detail') {
       const value = this.appService.getSocietyDetails();
-      console.log(value);
+      //console.log(value);
       return this.societyDetailService.postSocietyDetails(value, this.trackerId);
     } else if (urlArr[3] === 'tower' && urlArr[5] === 'config') {
       const value = this.appService.getTowerDetails(this.towerNo);
-      console.log(value);
+      //console.log(value);
       return this.towerConfig.postTowerConfigDetails(value);
     } else if (urlArr[3] === 'tower' && urlArr[5] === 'series') {
       const value = this.appService.getGroupDetails();
-      console.log(value);
+      //console.log(value);
       return this.mtrbyflr.postGroupDetails(value, this.trackerId, this.towerNo, this.seriesNo, this.groupNo);
     }
     // return false;

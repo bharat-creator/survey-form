@@ -73,36 +73,28 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      this.noOfFloors = this.appService.getNoOfFloors(this.towerNo);
       this.afterFloorNoFn();
     }
 
   }
 
   afterFloorNoFn() {
+    this.noOfFloors = this.appService.getNoOfFloors(this.towerNo);
     this.dropDowmFlatLogic();
     if (this.appService.getGroupDataFromObj() === undefined) {
-      console.log('database');
       this.mtrbyflr.getMeterByFloorDetail(this.trackerId, this.towerNo, this.seriesNo, this.groupNo).subscribe((detail) => {
         if (detail.status === true) {
           this.flatGrp = detail.payload;
-          console.log('found in database');
-          console.log(this.flatGrp);
           this.flatLoop(this.flatGrp.from, this.flatGrp.to);
-          this.onFlatGroupChange();
         } else {
-          console.log('Not found');
-          console.log(this.mtrbyflr.getStartFromVal());
-          this.flatLoop(this.flatGrp.from,this.flatGrp.to);
-          console.log(this.flatGrp);
+          this.flatGrp = this.FlatGrp();
+          this.flatLoop(this.flatGrp.from, this.flatGrp.to);
         }
-        this.onFlatGroupChange();
         this.appService.setGroupDetail(this.flatGrp);
+        this.onFlatGroupChange();
       });
     } else {
-      console.log('object');
       this.flatGrp = this.appService.getGroupDataFromObj();
-      console.log('From' + this.flatGrp.from + ',' + 'To' + this.flatGrp.to);
       this.flatLoop(this.flatGrp.from, this.flatGrp.to);
       this.onFlatGroupChange();
     }
@@ -110,6 +102,7 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
 
 
   dropDowmFlatLogic() {
+
     if (this.mtrbyflr.getStartFromVal() === undefined || this.groupNo === 1) {
       this.mtrbyflr.setStartFromVal(this.seriesNo);
     }
@@ -118,10 +111,10 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
     this.noOfFloors = this.appService.getNoOfFloors(this.towerNo);
     this.mtrbyflr.setEndToVal(((this.noOfFloors - 1) * 100) + this.seriesNo);
 
-    const startVal = this.mtrbyflr.getStartFromVal();
-    const endVal = this.mtrbyflr.getEndToVal();
-    //console.log(endVal);
-    this.flatLoop(startVal, endVal);
+    // const startVal = this.mtrbyflr.getStartFromVal();
+    // const endVal = this.mtrbyflr.getEndToVal();
+    // console.log("EndVal"+endVal);
+    // this.flatLoop(startVal, endVal);
   }
 
   flatLoop(startVal: number, endVal: number) {
@@ -131,7 +124,6 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
     for (let i = startIndex + 1; i <= endIndex + 1; i++) {
       this.chooseFlatArray.push(Number(((i - 1) * 100) + this.seriesNo));
     }
-    console.log(this.chooseFlatArray);
   }
 
   ngOnInit() {
