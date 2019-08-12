@@ -30,7 +30,8 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
 
   flatGrp: FlatGrp;
   typeOfFlat = [{ type: '1BHK' }, { type: '2BHK' }, { type: '3BHK' }, { type: '4BHK' }, { type: 'Villa' }];
-  typeOfInlet = [{ inlet: 'K' }, { inlet: 'M' }, { inlet: 'B1' }, { inlet: 'B2' }, { inlet: 'U' }, { inlet: 'S' }];
+  typeOfInlet = [];
+  tempFlatType: string;
 
   noOfFloors: number;
   navigationSubscription: any;
@@ -92,11 +93,13 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
         }
         this.appService.setGroupDetail(this.flatGrp);
         this.onFlatGroupChange();
+        this.updateSelectedArr();
       });
     } else {
       this.flatGrp = this.appService.getGroupDataFromObj();
       this.flatLoop(this.flatGrp.from, this.flatGrp.to);
       this.onFlatGroupChange();
+      this.updateSelectedArr();
     }
   }
 
@@ -205,6 +208,70 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.navigationSubscription) {
       this.navigationSubscription.unsubscribe();
+    }
+  }
+
+  updateSelectedArr() {
+    this.typeOfInlet = [{ inlet: 'K' }, { inlet: 'M' }, { inlet: 'S' }, { inlet: 'U' }];
+    this.tempFlatType = this.flatGrp.flatType;
+    const typeOfFlat = this.flatGrp.flatType.charAt(0);
+    for (let i = 1; i <= parseInt(typeOfFlat, 10); i++) {
+      this.typeOfInlet.push({ inlet: 'B' + i });
+    }
+
+    this.flatGrp.inletGrp.forEach((x) => {
+      let inletArr = [];
+      if (x.inlet.indexOf('&') > -1) {
+        inletArr = x.inlet.split('&');
+      } else if (x.inlet.indexOf('+') > -1) {
+        inletArr = x.inlet.split('+');
+      }
+
+      if (inletArr.length > 1) {
+        this.selectedInlet.push(inletArr[0]);
+        const firstIndex = this.typeOfInlet.findIndex(t => t.inlet.toLowerCase() === inletArr[0].toLowerCase());
+        if (firstIndex > -1) {
+          this.typeOfInlet.splice(firstIndex, 1);
+        }
+
+        this.selectedInlet.push(inletArr[1]);
+        const secondIndex = this.typeOfInlet.findIndex(t => t.inlet.toLowerCase() === inletArr[1].toLowerCase());
+        if (secondIndex > -1) {
+          this.typeOfInlet.splice(secondIndex, 1);
+        }
+      } else {
+        this.selectedInlet.push(x.inlet);
+        const typeIndex = this.typeOfInlet.findIndex(t => t.inlet.toLowerCase() === x.inlet.toLowerCase());
+        if (typeIndex > -1) {
+          this.typeOfInlet.splice(typeIndex, 1);
+        }
+      }
+    });
+
+  }
+
+  changeInFlatType(HtmlElement) {
+
+    let x = true;
+    if (this.flatGrp.inletGrp.length > 0) {
+      x = false;
+      x = confirm('It will remove all metering point choosen earlier');
+    }
+
+    if (x) {
+      this.flatGrp.inletGrp = [];
+      this.typeOfInlet = [];
+      this.typeOfInlet = [{ inlet: 'K' }, { inlet: 'M' }, { inlet: 'S' }, { inlet: 'U' }];
+
+      const typeOfFlat = this.flatGrp.flatType.charAt(0);
+      for (let i = 1; i <= parseInt(typeOfFlat, 10); i++) {
+        this.typeOfInlet.push({ inlet: 'B' + i });
+      }
+
+      this.tempFlatType = this.flatGrp.flatType;
+    } else {
+      this.flatGrp.flatType = this.tempFlatType;
+      HtmlElement.selectedIndex = this.typeOfFlat.findIndex(t => t.type.toLowerCase() === this.tempFlatType.toLowerCase());
     }
   }
 

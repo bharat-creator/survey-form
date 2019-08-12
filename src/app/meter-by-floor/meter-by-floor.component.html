@@ -41,7 +41,7 @@
                 <div class="form-row">
                   <div class="col-sm-5 col-xs-12">
                     <label for="flatType">Choose Type:</label>
-                    <select class="form-control" id="flatType" [(ngModel)]="flatGrp.flatType" name="flatType" required>
+                    <select class="form-control" #s id="flatType" [(ngModel)]="flatGrp.flatType" (change)="changeInFlatType(s)" name="flatType" required>
                       <option *ngFor="let t of typeOfFlat" [value]="t.type">{{t.type}}</option>
                     </select>
                   </div>

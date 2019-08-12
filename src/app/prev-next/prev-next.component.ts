@@ -82,12 +82,14 @@ export class PrevNextComponent implements OnInit {
       return this.towerConfig.postTowerConfigDetails(value, this.trackerId, this.towerNo);
     } else if (urlArr[3] === 'tower' && urlArr[5] === 'series') {
       const value = this.appService.getGroupDetails();
-      // console.log(value);
+      console.log(value);
       return this.mtrbyflr.postGroupDetails(value, this.trackerId, this.towerNo, this.seriesNo, this.groupNo);
     } else if (urlArr[3] === 'tower' && urlArr[5] === 'ystrainer') {
       const value = this.appService.getYStrainerDetails();
       console.log(value);
       return this.yStrainerService.postYStrainerDetail(value, this.trackerId, this.towerNo);
+    } else if (urlArr[3] === 'tower' && urlArr[5] === 'scaffolding&civil') {
+      return Observable.of(true);
     }
     // return false;
   }

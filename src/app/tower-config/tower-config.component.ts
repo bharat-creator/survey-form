@@ -2,6 +2,7 @@ import { AppService } from './../app-service';
 import { TowerConfigService } from './tower-config.service';
 import { Component, OnInit } from '@angular/core';
 import { TowerConfig, PlumbingStructure } from './tower-config';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-tower-config',
@@ -15,7 +16,16 @@ export class TowerConfigComponent implements OnInit {
   listOfMaterialSize = [{ size: '1"' }, { size: '2"' }, { size: '3/4"' }];
   trackerId: number;
   towerNo: number;
-  constructor(private towerConfigService: TowerConfigService, private appService: AppService) { }
+  navigationSubscription: any;
+
+  constructor(private towerConfigService: TowerConfigService, private appService: AppService, private router: Router) {
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      // If it is a NavigationEnd event re-initalise the component
+      if (e instanceof NavigationEnd) {
+        this.ngOnInit();
+      }
+    });
+  }
 
   ngOnInit() {
     this.trackerId = this.appService.getTrackerId();
@@ -36,7 +46,12 @@ export class TowerConfigComponent implements OnInit {
       this.towerConfig = this.appService.getTowerDetails(this.towerNo);
     }
 
-    this.appService.setPrevUrl('soc/' + this.trackerId + '/detail/');
+    if (this.towerNo === 1) {
+      this.appService.setPrevUrl('soc/' + this.trackerId + '/detail/');
+    } else {
+      this.appService.setPrevUrl('/soc/' + this.trackerId + '/tower/' + (this.towerNo - 1) + '/config');
+    }
+
     this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/1/group/1');
   }
 

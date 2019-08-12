@@ -60,6 +60,7 @@ export class TowerConfigService {
       towerNo: towerNum,
       payload: value
     };
-    return this.network.postData('http://stg-eclipse2.nuclious.in/spi/society-detail/save', data);
+    console.log(data);
+    return this.network.postData('http://stg-eclipse2.nuclious.in/spi/tower-detail/save', data);
   }
 }
