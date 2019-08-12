@@ -9,12 +9,21 @@ import { ListOfSurvey } from './list';
 })
 export class ListComponent implements OnInit {
 
-  listOfSurvey: ListOfSurvey[];
+  listOfSurvey: ListOfSurvey;
   constructor(private router: Router, private listService: ListService) { }
 
   ngOnInit() {
+    this.listOfSurvey = {
+      toDos: [],
+      upComing: [],
+      continue: [],
+      completed: []
+    };
+
     this.listService.getListOfSurvey().subscribe(list => {
-     this.listOfSurvey = list;
+      this.listOfSurvey = list;
+    }, (error) => {
+      console.log(error);
     });
   }
 

@@ -9,7 +9,7 @@
       <a class="nav-link" data-toggle="tab" href="#continue">Continues</a>
     </li>
     <li class="nav-item flex-fill">
-      <a class="nav-link" data-toggle="tab" href="#pending">Pending</a>
+      <a class="nav-link" data-toggle="tab" href="#upcoming">Upcoming</a>
     </li>
     <li class="nav-item flex-fill">
       <a class="nav-link" data-toggle="tab" href="#completed">Completed</a>
@@ -19,7 +19,8 @@
   <!-- Tab panes -->
   <div class="tab-content">
     <div id="todos" class="container tab-pane active">
-      <div *ngFor="let list of listOfSurvey" class="row" style="margin-top:10px; border: 1px solid grey; border-radius: 15px;">
+      <div *ngFor="let list of listOfSurvey.toDos" class="row"
+        style="margin-top:10px; border: 1px solid grey; border-radius: 15px;">
         <div class="col-sm-11" style="padding:10px">
           <p style="margin-bottom: 5px">{{list.name}}</p>
           <p style="margin-bottom: 5px">{{list.address}}</p>
@@ -29,22 +30,65 @@
             <div class="col-4">{{list.contactPhone}}</div>
           </div>
         </div>
-        <div (click)="startSurvey(list.trackerId)" class="col-sm-1 d-flex justify-content-center" style="border-bottom-right-radius: 15px; border-top-right-radius: 15px; background: red; align-items: center;">
+        <div (click)="startSurvey(list.trackerId)" class="col-sm-1 d-flex justify-content-center"
+          style="border-bottom-right-radius: 15px; border-top-right-radius: 15px; background: red; align-items: center;">
           Start
         </div>
       </div>
     </div>
     <div id="continue" class="container tab-pane fade"><br>
-      <h3>Continue</h3>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <div *ngFor="let list of listOfSurvey.continue" class="row"
+        style="margin-top:10px; border: 1px solid grey; border-radius: 15px;">
+        <div class="col-sm-11" style="padding:10px">
+          <p style="margin-bottom: 5px">{{list.name}}</p>
+          <p style="margin-bottom: 5px">{{list.address}}</p>
+          <div class="row">
+            <div class="col-4">{{list.scheduleTime}}</div>
+            <div class="col-4">{{list.contactName}}</div>
+            <div class="col-4">{{list.contactPhone}}</div>
+          </div>
+        </div>
+        <div (click)="startSurvey(list.trackerId)" class="col-sm-1 d-flex justify-content-center"
+          style="border-bottom-right-radius: 15px; border-top-right-radius: 15px; background: red; align-items: center;">
+          Start
+        </div>
+      </div>
     </div>
-    <div id="pending" class="container tab-pane fade"><br>
-      <h3>Pending</h3>
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+    <div id="upcoming" class="container tab-pane fade"><br>
+      <div *ngFor="let list of listOfSurvey.upComing" class="row"
+        style="margin-top:10px; border: 1px solid grey; border-radius: 15px;">
+        <div class="col-sm-11" style="padding:10px">
+          <p style="margin-bottom: 5px">{{list.name}}</p>
+          <p style="margin-bottom: 5px">{{list.address}}</p>
+          <div class="row">
+            <div class="col-4">{{list.scheduleTime}}</div>
+            <div class="col-4">{{list.contactName}}</div>
+            <div class="col-4">{{list.contactPhone}}</div>
+          </div>
+        </div>
+        <div (click)="startSurvey(list.trackerId)" class="col-sm-1 d-flex justify-content-center"
+          style="border-bottom-right-radius: 15px; border-top-right-radius: 15px; background: red; align-items: center;">
+          Start
+        </div>
+      </div>
     </div>
     <div id="completed" class="container tab-pane fade"><br>
-      <h3>completed</h3>
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+      <div *ngFor="let list of listOfSurvey.completed" class="row"
+        style="margin-top:10px; border: 1px solid grey; border-radius: 15px;">
+        <div class="col-sm-11" style="padding:10px">
+          <p style="margin-bottom: 5px">{{list.name}}</p>
+          <p style="margin-bottom: 5px">{{list.address}}</p>
+          <div class="row">
+            <div class="col-4">{{list.scheduleTime}}</div>
+            <div class="col-4">{{list.contactName}}</div>
+            <div class="col-4">{{list.contactPhone}}</div>
+          </div>
+        </div>
+        <div (click)="startSurvey(list.trackerId)" class="col-sm-1 d-flex justify-content-center"
+          style="border-bottom-right-radius: 15px; border-top-right-radius: 15px; background: red; align-items: center;">
+          Start
+        </div>
+      </div>
     </div>
   </div>
 </div>
