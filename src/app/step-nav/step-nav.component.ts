@@ -28,6 +28,8 @@ export class StepNavComponent implements OnInit {
       this.stepcss = 'meter_by_floor';
     } else if (urlArr[3] === 'tower' && urlArr[5] === 'ystrainer') {
       this.stepcss = 'y_strainer';
+    } else if (urlArr[3] === 'tower' && urlArr[5] === 'scaffolding&civil') {
+      this.stepcss = 'scaffolding_civil';
     }
   }
 

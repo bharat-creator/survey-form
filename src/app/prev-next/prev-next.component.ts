@@ -78,8 +78,8 @@ export class PrevNextComponent implements OnInit {
       return this.societyDetailService.postSocietyDetails(value, this.trackerId);
     } else if (urlArr[3] === 'tower' && urlArr[5] === 'config') {
       const value = this.appService.getTowerDetails(this.towerNo);
-      // console.log(value);
-      return this.towerConfig.postTowerConfigDetails(value);
+      //console.log(value);
+      return this.towerConfig.postTowerConfigDetails(value, this.trackerId, this.towerNo);
     } else if (urlArr[3] === 'tower' && urlArr[5] === 'series') {
       const value = this.appService.getGroupDetails();
       // console.log(value);

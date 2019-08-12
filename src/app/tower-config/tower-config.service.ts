@@ -54,7 +54,12 @@ export class TowerConfigService {
     return this.network.getData('http://stg-eclipse2.nuclious.in/spi/tower/detail/' + trackerId + '/' + towerNo);
   }
 
-  postTowerConfigDetails(value: TowerConfig): Observable<any> {
-    return this.network.postData('http://stg-eclipse2.nuclious.in/spi/society-detail/save', value);
+  postTowerConfigDetails(value: TowerConfig, trackerIdNo: number, towerNum: number): Observable<any> {
+    const data = {
+      trackerId: trackerIdNo,
+      towerNo: towerNum,
+      payload: value
+    };
+    return this.network.postData('http://stg-eclipse2.nuclious.in/spi/society-detail/save', data);
   }
 }

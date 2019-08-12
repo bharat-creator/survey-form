@@ -169,6 +169,7 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   prevUrl() {
 
     if (this.seriesNo === 1 && this.groupNo === 1) {
+
       this.appService.setPrevUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/config/');
     } else if (this.groupNo > 1) {
       this.appService.setPrevUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/'

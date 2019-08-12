@@ -28,8 +28,8 @@ export class TowerConfigComponent implements OnInit {
       this.towerConfigService.getTowerDetail(this.trackerId, this.towerNo).subscribe((detail) => {
         if (detail.status === true) {
           this.towerConfig = detail.payload;
-          this.appService.setTowerDetails(this.towerConfig, this.towerNo);
         }
+        this.appService.setTowerDetails(this.towerConfig, this.towerNo);
       });
     } else {
       console.log('From Object');
@@ -45,7 +45,7 @@ export class TowerConfigComponent implements OnInit {
       towerName: '',
       noOfFloor: 0,
       noOfSeries: 0,
-      replumbingReq: true,
+      replumbingReq: false,
       ringMainsChanged: false,
       plumbingStructure: [
         { name: 'Ring Mains', type: '', size: '' },
