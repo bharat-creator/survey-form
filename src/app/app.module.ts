@@ -18,6 +18,7 @@ import { TowerConfigService } from './tower-config/tower-config.service';
 import { MeterByFloorService } from './meter-by-floor/meter-by-floor.service';
 import { PrevNextComponent } from './prev-next/prev-next.component';
 import { AppService } from './app-service';
+import { ScaffoldingCivilWorkComponent } from './scaffolding-civil-work/scaffolding-civil-work.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AppService } from './app-service';
     MeterByFloorComponent,
     YStrainerComponent,
     TowerConfigComponent,
-    PrevNextComponent
+    PrevNextComponent,
+    ScaffoldingCivilWorkComponent
   ],
   imports: [
     BrowserModule,

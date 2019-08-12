@@ -73,7 +73,8 @@ export class MeterByFloorService {
       groupNo: groupNum,
       payload: value
     };
-    return Observable.of(true); //this.network.postData('http://stg-eclipse2.nuclious.in/spi/society-detail/save', data);
+    // return Observable.of(true);
+    return this.network.postData('http://stg-eclipse2.nuclious.in/spi/mbf-detail/save', data);
   }
 
 

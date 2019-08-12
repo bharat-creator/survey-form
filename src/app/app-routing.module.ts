@@ -5,6 +5,7 @@ import { SocietyDetailsComponent } from './society-details/society-details.compo
 import { TowerConfigComponent } from './tower-config/tower-config.component';
 import { MeterByFloorComponent } from './meter-by-floor/meter-by-floor.component';
 import { YStrainerComponent } from './y-strainer/y-strainer.component';
+import { ScaffoldingCivilWorkComponent } from './scaffolding-civil-work/scaffolding-civil-work.component';
 
 
 const routes: Routes = [
@@ -13,7 +14,8 @@ const routes: Routes = [
   { path: 'soc/:trackerId/detail', component: SocietyDetailsComponent },
   { path: 'soc/:trackerId/tower/:towerNo/config', component: TowerConfigComponent },
   { path: 'soc/:trackerId/tower/:towerNo/series/:seriesNo/group/:groupNo', component: MeterByFloorComponent },
-  { path: 'soc/:trackerId/tower/:towerNo/ystrainer', component: YStrainerComponent }
+  { path: 'soc/:trackerId/tower/:towerNo/ystrainer', component: YStrainerComponent },
+  { path: 'soc/:trackerId/tower/:towerNo/scaffolding&civil', component: ScaffoldingCivilWorkComponent }
 ];
 
 @NgModule({

@@ -113,11 +113,11 @@ export class AppService {
 
   setTowerDetails(value: TowerConfig, towerNum: number) {
     if (this.surveyForm.towers === undefined) {
-      this.surveyForm.towers = [{ towerNo: towerNum, towerDetails: value, seriesGrp: [] }];
+      this.surveyForm.towers = [{ towerNo: towerNum, towerDetails: value, seriesGrp: [], yStrainer: {} }];
     } else if (this.surveyForm.towers.length >= 1) {
       const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === towerNum);
       if (towerIndex === -1) {
-        this.surveyForm.towers.push({ towerNo: towerNum, towerDetails: value, seriesGrp: [] });
+        this.surveyForm.towers.push({ towerNo: towerNum, towerDetails: value, seriesGrp: [], yStrainer: {} });
       }
     }
   }
@@ -183,6 +183,27 @@ export class AppService {
           return undefined;
         }
       }
+    }
+  }
+
+  setYStrainerDetails(value: any) {
+    const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === this.towerNo);
+    if (towerIndex > -1) {
+      this.surveyForm.towers[towerIndex].yStrainer = value;
+    }
+  }
+
+  getYStrainerDetails(): any {
+    const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === this.towerNo);
+    if (towerIndex > -1) {
+      if (Object.keys(this.surveyForm.towers[towerIndex].yStrainer).length === 0 &&
+          this.surveyForm.towers[towerIndex].yStrainer.constructor === Object) {
+        return undefined;
+      } else {
+        return this.surveyForm.towers[towerIndex].yStrainer;
+      }
+    } else {
+      return undefined;
     }
   }
 

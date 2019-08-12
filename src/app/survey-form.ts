@@ -10,4 +10,5 @@ export interface TowerGroup {
     towerNo: number;
     towerDetails: TowerConfig;
     seriesGrp: SeriesGrp[];
+    yStrainer: any;
 }

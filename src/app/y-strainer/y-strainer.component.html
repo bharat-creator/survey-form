@@ -7,36 +7,42 @@
         <div class="card-body">
           <div class="form-row">
             <div class="form-group col-sm-4 d-none d-sm-block">
-              <label for="tname">Pipe Type:</label>
+              <label for="">Pipe Type:</label>
             </div>
             <div class="form-group col-sm-4 d-none d-sm-block">
-              <label for="nooftower">Size:</label>
+              <label for="">Size:</label>
             </div>
-            <div class="form-group col-sm-4 d-none d-sm-block">
-              <label for="nooftower">Quantity:</label>
+            <div class="form-group col-sm-3 d-none d-sm-block">
+              <label for="">Quantity:</label>
+            </div>
+            <div class="form-group col-sm-1 d-none d-sm-block">
+              <label for="">Remove</label>
             </div>
           </div>
-          <div class="form-row">
+          <div *ngFor="let ry of rowOfYstrainer; let i = index;" class="form-row">
             <div class="form-group col-sm-4">
-              <label for="tname" class="d-block d-sm-none">Pipe Type:</label>
-              <select class="form-control" id="city" placeholder="Enter City" name="city" required>
-                <option>Hello</option>
+              <label for="" class="d-block d-sm-none">Pipe Type:</label>
+              <select class="form-control" [(ngModel)]="ry.pipeType" required>
+                <option *ngFor="let pipe of pipeType" [value]="pipe">{{pipe}}</option>
               </select>
             </div>
             <div class="form-group col-sm-4">
-                <label for="tname" class="d-block d-sm-none">Size:</label>
-              <select class="form-control" id="city" placeholder="Enter City" name="city" required>
-                <option>Hello</option>
+                <label for="" class="d-block d-sm-none">Size:</label>
+              <select class="form-control" [(ngModel)]="ry.pipeSize" required>
+                <option *ngFor="let size of pipeSize" [value]="size">{{size}}</option>
               </select>
             </div>
-            <div class="form-group col-sm-4">
-              <label for="nooftower" class="d-block d-sm-none">Quantity:</label>
-              <input type="number" class="form-control" id="nooftower" placeholder="Enter No. Of Floor" name="nooftower"
-                required>
+            <div class="form-group col-sm-3">
+              <label for="" class="d-block d-sm-none">Quantity:</label>
+              <input type="number" class="form-control"   [(ngModel)]="ry.noOfQty" placeholder="Enter No. Of Quantity" required>
+            </div>
+            <div class="form-group col-sm-1">
+              <label for="" class="d-block d-sm-none">Remove:</label>
+              <i class="fa fa-trash" aria-hidden="true" (click)="removeYRow(i)"></i>
             </div>
           </div>
           <div class="form-row float-right">
-            <button class="btn btn-sm btn-outline-primary">Add More</button>
+            <button class="btn btn-sm btn-outline-primary" (click)="addYRow()">Add More</button>
           </div>
         </div>
       </div>
@@ -52,34 +58,41 @@
             <div class="form-group col-sm-4 d-none d-sm-block">
               <label for="nooftower">Size:</label>
             </div>
-            <div class="form-group col-sm-4 d-none d-sm-block">
+            <div class="form-group col-sm-3 d-none d-sm-block">
               <label for="nooftower">Quantity:</label>
             </div>
+            <div class="form-group col-sm-1 d-none d-sm-block">
+              <label for="">Remove</label>
+            </div>
           </div>
-          <div class="form-row">
+          <div *ngFor="let item of rowOfItems; let i = index" class="form-row">
             <div class="form-group col-sm-4">
-              <label for="tname" class="d-block d-sm-none">Item Name:</label>
-              <select class="form-control" id="city" placeholder="Enter City" name="city" required>
-                <option>Hello</option>
+              <label class="d-block d-sm-none">Item Name:</label>
+              <select class="form-control" [(ngModel)]="item.itemName" required>
+                <option *ngFor="let i of items" [value]="i">{{i}}</option>
               </select>
             </div>
             <div class="form-group col-sm-4">
-                <label for="nooftower"  class="d-block d-sm-none">Size:</label>
-              <select class="form-control" id="city" placeholder="Enter City" name="city" required>
-                <option>Hello</option>
+                <label for=""  class="d-block d-sm-none">Size:</label>
+              <select class="form-control" [(ngModel)]="item.itemSize" required>
+                <option *ngFor="let size of itemSize" [value]="size">{{size}}</option>
               </select>
             </div>
-            <div class="form-group col-sm-4">
-              <label for="nooftower"  class="d-block d-sm-none">Quantity:</label>
-              <input type="number" class="form-control" id="nooftower" placeholder="Enter No. Of Floor" name="nooftower"
-                required>
+            <div class="form-group col-sm-3">
+              <label for=""  class="d-block d-sm-none">Quantity:</label>
+              <input type="number" class="form-control" [(ngModel)]="item.itemQty" placeholder="Enter No. Of Qty" required>
+            </div>
+            <div class="form-group col-sm-1">
+                <label for="" class="d-block d-sm-none">Remove:</label>
+                <i class="fa fa-trash" aria-hidden="true" (click)="removeIRow(i)"></i>
             </div>
           </div>
           <div class="form-row float-right">
-            <button class="btn btn-sm btn-outline-primary">Add More</button>
+            <button class="btn btn-sm btn-outline-primary" (click)="addIRow()">Add More</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<app-prev-next></app-prev-next>
