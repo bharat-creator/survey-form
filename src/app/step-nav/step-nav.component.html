@@ -14,17 +14,17 @@
         <div class="navbar-nav flex-column" [class.speech-bubble]="stepcss == 'scaffolding_civil'">
             <a class="nav-item nav-link" routerLink="/soc/{{trackerId}}/tower/{{towerNo}}/scaffolding&civil">Scaffolding & Civil Work</a>
         </div>
-        <div class="navbar-nav flex-column">
-            <a class="nav-item nav-link" routerLink="/page1">Common & Supply</a>
+        <div class="navbar-nav flex-column" [class.speech-bubble]="stepcss == 'common_supply'">
+            <a class="nav-item nav-link" routerLink="/soc/{{trackerId}}/common">Common & Supply</a>
         </div>
-        <div class="navbar-nav flex-column">
-            <a class="nav-item nav-link" routerLink="/page1">Safety Questions</a>
+        <div class="navbar-nav flex-column" [class.speech-bubble]="stepcss == 'safety_questions'">
+            <a class="nav-item nav-link" routerLink="/soc/{{trackerId}}/safetyquestions">Safety Questions</a>
         </div>
-        <div class="navbar-nav flex-column">
-            <a class="nav-item nav-link" routerLink="/page1">Customer Inputs</a>
+        <div class="navbar-nav flex-column" [class.speech-bubble]="stepcss == 'customer_input'">
+            <a class="nav-item nav-link" routerLink="/soc/{{trackerId}}/customerinput">Customer Inputs</a>
         </div>
-        <div class="navbar-nav flex-column">
-            <a class="nav-item nav-link" routerLink="/page1">Preview<span class="sr-only">(current)</span></a>
+        <div class="navbar-nav flex-column" [class.speech-bubble]="stepcss == 'preview'">
+            <a class="nav-item nav-link" routerLink="/soc/{{trackerId}}/preview">Preview<span class="sr-only">(current)</span></a>
         </div> 
       </div>
       

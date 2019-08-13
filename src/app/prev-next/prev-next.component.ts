@@ -6,6 +6,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { TowerConfigService } from '../tower-config/tower-config.service';
 import { MeterByFloorService } from '../meter-by-floor/meter-by-floor.service';
 import { YStrainerService } from '../y-strainer/y-strainer.service';
+import { CommonMtrService } from '../common/common.service';
 
 @Component({
   selector: 'app-prev-next',
@@ -24,7 +25,8 @@ export class PrevNextComponent implements OnInit {
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private appService: AppService,
               private societyDetailService: SocietyDetailsService, private towerConfig: TowerConfigService,
-              private mtrbyflr: MeterByFloorService, private yStrainerService: YStrainerService) {
+              private mtrbyflr: MeterByFloorService, private yStrainerService: YStrainerService,
+              private commonMtrService: CommonMtrService) {
 
     this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
       this.trackerId = parseInt(params.get('trackerId'), 10);
@@ -95,6 +97,20 @@ export class PrevNextComponent implements OnInit {
       console.log(value);
       return this.yStrainerService.postYStrainerDetail(value, this.trackerId, this.towerNo);
     } else if (urlArr[3] === 'tower' && urlArr[5] === 'scaffolding&civil') {
+      return Observable.of(true);
+    } else if (urlArr[3] === 'common') {
+      const value = this.appService.getCommonMtrDetails();
+      console.log(value);
+      // return this.commonMtrService.postDetail(value, this.trackerId);
+      return Observable.of(true);
+    } else if (urlArr[3] === 'supply') {
+      const value = this.appService.getSupplyMtrDetails();
+      console.log(value);
+      // return this.supplyMtrService.postDetail(value, this.trackerId);
+      return Observable.of(true);
+    } else if (urlArr[3] === 'safetyquestions') {
+      return Observable.of(true);
+    } else if (urlArr[3] === 'customerinput') {
       return Observable.of(true);
     }
     // return false;

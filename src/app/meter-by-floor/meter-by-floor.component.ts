@@ -260,7 +260,10 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
     }
 
     if (x) {
+      this.showCombineBox = false;
       this.flatGrp.inletGrp = [];
+      this.selectedInlet = [];
+      this.chooseInletArray = [];
       this.typeOfInlet = [];
       this.typeOfInlet = [{ inlet: 'K' }, { inlet: 'M' }, { inlet: 'S' }, { inlet: 'U' }];
 

@@ -1,0 +1,39 @@
+<app-step-nav></app-step-nav>
+<div class='container'>
+  <div class='row'>
+    <div class='col-sm-12'>
+      <div class="card" style="border-radius: 15px; height: 100%">
+        <div class="card-header">Safety Questions</div>
+        <div class="card-body">
+          <div class='row m-0'>
+            <div class='col-0 col-sm-1'></div>
+            <div class="col-9">
+              Questions
+            </div>
+            <div class="col-3 col-sm-1">
+              No. Of Ducts
+            </div>
+            <div class='col-0 col-sm-1'></div>
+          </div> 
+          <div *ngFor="let q of rowOfQues; let i = index" class='row m-0 mt-2'>
+              <div class='col-0 col-sm-1'></div>
+            <div class="col-9">
+              Q{{i+1}}. {{q.question}}
+            </div>
+            <div class="col-3 col-sm-1">
+              <input class='form-control' [(ngModel)]="q.noOfDucts" type="number" min="0">
+            </div>
+            <div class='col-0 col-sm-1'></div>
+          </div> 
+          <div class='row m-0 mt-2'> 
+              <div class="form-group col-sm-10 mx-auto">
+                <label for="comment">Safety Concern:</label>
+                <textarea class="form-control" [(ngModel)]="safetyconcern" rows="5" id="comment"></textarea>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-prev-next></app-prev-next>

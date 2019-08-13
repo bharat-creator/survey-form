@@ -36,8 +36,9 @@ export class ScaffoldingCivilWorkComponent implements OnInit {
   }
 
   navUrl() {
-    if (this.societyDetails.noOfTowersForSurvey === this.towerNo) {
-      this.appService.setNextUrl('/soc/' + this.trackerId + '/common&supply');
+    console.log(this.societyDetails);
+    if (this.societyDetails.noOfTowersForSurvey <= this.towerNo) {
+      this.appService.setNextUrl('/soc/' + this.trackerId + '/common');
     } else {
       this.appService.setNextUrl('/soc/' + this.trackerId + '/tower/' + (this.towerNo + 1) + '/config');
     }

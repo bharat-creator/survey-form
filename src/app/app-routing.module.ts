@@ -6,7 +6,11 @@ import { TowerConfigComponent } from './tower-config/tower-config.component';
 import { MeterByFloorComponent } from './meter-by-floor/meter-by-floor.component';
 import { YStrainerComponent } from './y-strainer/y-strainer.component';
 import { ScaffoldingCivilWorkComponent } from './scaffolding-civil-work/scaffolding-civil-work.component';
-import { CommonSupplyComponent } from './common-supply/common-supply.component';
+import { CommonComponent } from './common/common.component';
+import { SupplyComponent } from './supply/supply.component';
+import { SafetyQuestionsComponent } from './safety-questions/safety-questions.component';
+import { CustomerInputComponent } from './customer-input/customer-input.component';
+import { PreviewComponent } from './preview/preview.component';
 
 
 const routes: Routes = [
@@ -17,7 +21,11 @@ const routes: Routes = [
   { path: 'soc/:trackerId/tower/:towerNo/series/:seriesNo/group/:groupNo', component: MeterByFloorComponent },
   { path: 'soc/:trackerId/tower/:towerNo/ystrainer', component: YStrainerComponent },
   { path: 'soc/:trackerId/tower/:towerNo/scaffolding&civil', component: ScaffoldingCivilWorkComponent },
-  { path: 'soc/:trackerId/common&supply', component: CommonSupplyComponent }
+  { path: 'soc/:trackerId/common', component: CommonComponent },
+  { path: 'soc/:trackerId/supply', component: SupplyComponent },
+  { path: 'soc/:trackerId/safetyquestions', component: SafetyQuestionsComponent},
+  { path: 'soc/:trackerId/customerinput', component: CustomerInputComponent},
+  { path: 'soc/:trackerId/preview', component: PreviewComponent}
 ];
 
 @NgModule({

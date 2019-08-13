@@ -1,0 +1,66 @@
+<app-step-nav></app-step-nav>
+<div class='container'>
+    <div class='row'>
+        <div class='col-sm-12'>
+            <div class="card" style="border-radius: 15px; height: 100%">
+                <div class="card-header">Supply Meter</div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-sm-3 d-none d-sm-block">
+                            <label for="">Supply Area:</label>
+                        </div>
+                        <div class="form-group col-sm-3 d-none d-sm-block">
+                            <label for="">Location:</label>
+                        </div>
+                        <div class="form-group col-sm-2 d-none d-sm-block">
+                            <label for="">Quantity:</label>
+                        </div>
+                        <div class="form-group col-sm-3 d-none d-sm-block">
+                            <label for="">Meter Specs:</label>
+                        </div>
+                        <div class="form-group col-sm-1 d-none d-sm-block">
+                                <label for="">Remove:</label>
+                            </div>
+                    </div>
+                    <div *ngFor="let ry of rowOfSupply; let i = index;" class="form-row">
+                        <div class="form-group col-sm-3">
+                            <label for="" class="d-block d-sm-none">Supply Area:</label>
+                            <input class="form-control" [(ngModel)]="ry.area" list="arealist" name="ry.area">
+                            <datalist id="arealist">
+                                    <option *ngFor="let area of areaArr" [value]="area">
+                            </datalist>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label for="" class="d-block d-sm-none">Location:</label>
+                            <input class="form-control" [(ngModel)]="ry.location" list="towerlist" name="ry.location">
+                            <datalist id="towerlist">
+                                    <option *ngFor="let t of towerArr" [value]="t">
+                            </datalist>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label for="" class="d-block d-sm-none">Quantity:</label>
+                            <input type="number" class="form-control" [(ngModel)]="ry.noOfQty"
+                                placeholder="Enter No. Of Quantity" required>
+                        </div>
+                        <div class="form-group col-sm-3">
+                                <label for="" class="d-block d-sm-none">Meter Specs:</label>
+                                <input class="form-control" [(ngModel)]="ry.mtrSpec" list="mtrlist" name="ry.mtrSpec">
+                                <datalist id="mtrlist">
+                                    <option *ngFor="let mtr of mtrArr" [value]="mtr">
+                                </datalist>
+                            </div>
+                        <div class="form-group col-sm-1">
+                            <label for="" class="d-block d-sm-none">Remove:</label>
+                            <i class="fa fa-trash" aria-hidden="true" (click)="removeCRow(i)"></i>
+                        </div>
+                    </div>
+                    <div class="form-row float-right">
+                        <button class="btn btn-sm btn-outline-primary" (click)="addCRow()">Add More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-prev-next></app-prev-next>

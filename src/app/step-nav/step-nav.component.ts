@@ -40,8 +40,14 @@ export class StepNavComponent implements OnInit {
       this.stepcss = 'y_strainer';
     } else if (urlArr[3] === 'tower' && urlArr[5] === 'scaffolding&civil') {
       this.stepcss = 'scaffolding_civil';
-    } else if (urlArr[3] === 'common&supply') {
+    } else if (urlArr[3] === 'common' || urlArr[3] === 'supply') {
       this.stepcss = 'common_supply';
+    } else if (urlArr[3] === 'safetyquestions') {
+      this.stepcss = 'safety_questions';
+    } else if (urlArr[3] === 'customerinput') {
+      this.stepcss = 'customer_input';
+    } else if (urlArr[3] === 'preview') {
+      this.stepcss = 'preview';
     }
   }
 

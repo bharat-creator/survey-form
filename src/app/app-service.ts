@@ -3,6 +3,8 @@ import { TowerConfig } from './tower-config/tower-config';
 import { SocietyDetail } from './society-details/society-details';
 import { SurveyForm, TowerGroup } from './survey-form';
 import { Injectable } from '@angular/core';
+import { CommonMeter } from './common/common';
+import { SupplyMeter } from './supply/supply';
 
 @Injectable({
   providedIn: 'root'
@@ -80,6 +82,22 @@ export class AppService {
     return this.surveyForm.societyDetails;
   }
 
+  setCommonMtrDetails(value: CommonMeter[]) {
+    this.surveyForm.commonMtrs = value;
+  }
+
+  getCommonMtrDetails(): CommonMeter[] {
+    return this.surveyForm.commonMtrs;
+  }
+
+  setSupplyMtrDetails(value: SupplyMeter[]) {
+    this.surveyForm.supplyMtrs = value;
+  }
+
+  getSupplyMtrDetails(): SupplyMeter[] {
+    return this.surveyForm.supplyMtrs;
+  }
+
   setNoOfFloors(value: number) {
     this.noOfFloor = value;
   }
@@ -98,7 +116,7 @@ export class AppService {
   }
 
   getNoOfSeries(towerNum: number): number {
-    if (this.surveyForm === undefined || this.surveyForm.towers === undefined){
+    if (this.surveyForm === undefined || this.surveyForm.towers === undefined) {
       return 0;
     } else {
       const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === towerNum);
@@ -145,14 +163,14 @@ export class AppService {
     if (towerIndex > -1) {
       const seriesLength = this.surveyForm.towers[towerIndex].seriesGrp.length;
       if (seriesLength === 0) {
-        this.surveyForm.towers[towerIndex].seriesGrp.push({ seriesNo: this.seriesNo, flatGrp: []});
+        this.surveyForm.towers[towerIndex].seriesGrp.push({ seriesNo: this.seriesNo, flatGrp: [] });
         this.surveyForm.towers[towerIndex].seriesGrp[seriesLength].flatGrp.push(value);
       } else {
         const seriesindex = this.surveyForm.towers[towerIndex].seriesGrp.findIndex(x => x.seriesNo === this.seriesNo);
-        if ( seriesindex > -1) {
+        if (seriesindex > -1) {
           this.surveyForm.towers[towerIndex].seriesGrp[seriesindex].flatGrp.push(value);
         } else {
-          this.surveyForm.towers[towerIndex].seriesGrp.push({ seriesNo: this.seriesNo, flatGrp: []});
+          this.surveyForm.towers[towerIndex].seriesGrp.push({ seriesNo: this.seriesNo, flatGrp: [] });
           this.surveyForm.towers[towerIndex].seriesGrp[seriesLength].flatGrp.push(value);
         }
       }
@@ -171,9 +189,9 @@ export class AppService {
         return undefined;
       } else {
         const seriesIndex = this.surveyForm.towers[towerIndex].seriesGrp.findIndex(x => x.seriesNo === this.seriesNo);
-        if ( seriesIndex > -1) {
+        if (seriesIndex > -1) {
           const groupIndex = this.surveyForm.towers[towerIndex].seriesGrp[seriesIndex].flatGrp.findIndex(x => x.groupNo === this.groupNo);
-          if ( groupIndex > -1) {
+          if (groupIndex > -1) {
             return this.surveyForm.towers[towerIndex].seriesGrp[seriesIndex].flatGrp[groupIndex];
           } else {
             return undefined;
@@ -197,7 +215,7 @@ export class AppService {
     const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === towerNum);
     if (towerIndex > -1) {
       if (Object.keys(this.surveyForm.towers[towerIndex].yStrainer).length === 0 &&
-          this.surveyForm.towers[towerIndex].yStrainer.constructor === Object) {
+        this.surveyForm.towers[towerIndex].yStrainer.constructor === Object) {
         return undefined;
       } else {
         return this.surveyForm.towers[towerIndex].yStrainer;

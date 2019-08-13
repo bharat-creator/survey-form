@@ -1,3 +1,5 @@
+import { CommonMtrService } from './common/common.service';
+import { YStrainerService } from './y-strainer/y-strainer.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -19,7 +21,11 @@ import { MeterByFloorService } from './meter-by-floor/meter-by-floor.service';
 import { PrevNextComponent } from './prev-next/prev-next.component';
 import { AppService } from './app-service';
 import { ScaffoldingCivilWorkComponent } from './scaffolding-civil-work/scaffolding-civil-work.component';
-import { CommonSupplyComponent } from './common-supply/common-supply.component';
+import { CommonComponent } from './common/common.component';
+import { SupplyComponent } from './supply/supply.component';
+import { SafetyQuestionsComponent } from './safety-questions/safety-questions.component';
+import { CustomerInputComponent } from './customer-input/customer-input.component';
+import { PreviewComponent } from './preview/preview.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +39,11 @@ import { CommonSupplyComponent } from './common-supply/common-supply.component';
     TowerConfigComponent,
     PrevNextComponent,
     ScaffoldingCivilWorkComponent,
-    CommonSupplyComponent
+    CommonComponent,
+    SupplyComponent,
+    SafetyQuestionsComponent,
+    CustomerInputComponent,
+    PreviewComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +51,7 @@ import { CommonSupplyComponent } from './common-supply/common-supply.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [AppService, SocietyDetailsService, TowerConfigService, MeterByFloorService],
+  providers: [AppService, SocietyDetailsService, TowerConfigService, MeterByFloorService, YStrainerService, CommonMtrService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
