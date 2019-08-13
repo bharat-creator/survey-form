@@ -1,4 +1,3 @@
-import { async } from '@angular/core/testing';
 import { SeriesGrp, FlatGrp } from './meter-by-floor/series-group';
 import { TowerConfig } from './tower-config/tower-config';
 import { SocietyDetail } from './society-details/society-details';
@@ -85,7 +84,7 @@ export class AppService {
     this.noOfFloor = value;
   }
 
-  getNoOfFloors(towerNum: number): number {
+  getNoOfFloors(towerNum: number) {
     if (this.surveyForm === undefined || this.surveyForm.towers === undefined) {
       return undefined;
     } else {
@@ -193,8 +192,9 @@ export class AppService {
     }
   }
 
-  getYStrainerDetails(): any {
-    const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === this.towerNo);
+  getYStrainerDetails(towerNum: number): any {
+
+    const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === towerNum);
     if (towerIndex > -1) {
       if (Object.keys(this.surveyForm.towers[towerIndex].yStrainer).length === 0 &&
           this.surveyForm.towers[towerIndex].yStrainer.constructor === Object) {

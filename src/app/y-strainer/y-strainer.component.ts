@@ -20,14 +20,13 @@ export class YStrainerComponent implements OnInit {
   rowOfYstrainer = [{ pipeType: '', pipeSize: '', noOfQty: 0 }];
   rowOfItems = [{ itemName: '', itemSize: '', itemQty: 0 }];
 
-  constructor(private appService: AppService, private towerConfigService: TowerConfigService, 
-              private yStrainerService: YStrainerService) { }
+  constructor(private appService: AppService, private towerConfigService: TowerConfigService,
+    private yStrainerService: YStrainerService) { }
 
   ngOnInit() {
     this.trackerId = this.appService.getTrackerId();
     this.towerNo = this.appService.getTowerNo();
-
-    if (this.appService.getNoOfFloors(this.towerNo) === undefined) {
+    if (this.appService.getTowerDetails(this.towerNo) === undefined) {
 
       this.towerConfigService.getTowerDetail(this.trackerId, this.towerNo).subscribe((detail) => {
         if (detail.status === true) {
@@ -36,6 +35,7 @@ export class YStrainerComponent implements OnInit {
           this.afterTowerDetial();
         } else {
           // Redirect To Tower Page
+          console.log('Redirect To Tower Page');
         }
       });
     } else {
@@ -44,18 +44,24 @@ export class YStrainerComponent implements OnInit {
   }
 
   afterTowerDetial() {
-    if (this.appService.getYStrainerDetails() === undefined) {
+    if (this.appService.getYStrainerDetails(this.towerNo) === undefined) {
       console.log('From Database');
       this.yStrainerService.getYStrainerDetail(this.trackerId, this.towerNo).subscribe((detail) => {
         if (detail.status === true) {
-          this.rowOfYstrainer = detail.payload.yStrainer;
-          this.rowOfItems = detail.payload.additionalItems;
+          if (detail.payload.yStrainer.length > 0) {
+            this.rowOfYstrainer = detail.payload.yStrainer;
+          }
+          if (detail.payload.additionalItems.length > 0) {
+            this.rowOfItems = detail.payload.additionalItems;
+          }
+          console.log('found');
         }
         const ystrainerDetail = { yStrainer: this.rowOfYstrainer, additionalItems: this.rowOfItems };
         this.appService.setYStrainerDetails(ystrainerDetail);
       });
     } else {
-      const payload = this.appService.getYStrainerDetails();
+      console.log('From Object');
+      const payload = this.appService.getYStrainerDetails(this.towerNo);
       this.rowOfYstrainer = payload.yStrainer;
       this.rowOfItems = payload.additionalItems;
     }

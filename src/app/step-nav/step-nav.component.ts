@@ -1,6 +1,6 @@
 import { AppService } from './../app-service';
 import { Component, OnInit, Inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-step-nav',
@@ -13,14 +13,24 @@ export class StepNavComponent implements OnInit {
   towerNo: number;
   seriesNo: number;
   groupNo: number;
-  constructor(private router: Router, private appService: AppService) { }
+  navigationSubscription: any;
+  constructor(private router: Router, private appService: AppService) {
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      // If it is a NavigationEnd event re-initalise the component
+      if (e instanceof NavigationEnd) {
+        this.StepOnInit();
+      }
+    });
+  }
 
   ngOnInit() {
     this.trackerId = this.appService.getTrackerId();
     this.towerNo = this.appService.getTowerNo();
     this.seriesNo = this.appService.getSeriesNo();
     this.groupNo = this.appService.getGroupNo();
+  }
 
+  StepOnInit() {
     const urlArr = this.router.url.split('/');
     if (urlArr[3] === 'detail') {
       this.stepcss = 'society_details';
@@ -30,6 +40,8 @@ export class StepNavComponent implements OnInit {
       this.stepcss = 'y_strainer';
     } else if (urlArr[3] === 'tower' && urlArr[5] === 'scaffolding&civil') {
       this.stepcss = 'scaffolding_civil';
+    } else if (urlArr[3] === 'common&supply') {
+      this.stepcss = 'common_supply';
     }
   }
 

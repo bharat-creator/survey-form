@@ -1,8 +1,7 @@
 import { AppService } from './../app-service';
 import { TowerConfigService } from './tower-config.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { TowerConfig, PlumbingStructure } from './tower-config';
-import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-tower-config',
@@ -11,35 +10,37 @@ import { Router, NavigationEnd } from '@angular/router';
 })
 
 export class TowerConfigComponent implements OnInit {
-  towerConfig: TowerConfig;
+  @Input() towerConfig: TowerConfig;
   listOfPipeTypes = [{ type: 'cpvc' }, { type: 'upvc' }];
   listOfMaterialSize = [{ size: '1"' }, { size: '2"' }, { size: '3/4"' }];
   trackerId: number;
   towerNo: number;
   navigationSubscription: any;
 
-  constructor(private towerConfigService: TowerConfigService, private appService: AppService, private router: Router) {
-    this.navigationSubscription = this.router.events.subscribe((e: any) => {
-      // If it is a NavigationEnd event re-initalise the component
-      if (e instanceof NavigationEnd) {
-        this.ngOnInit();
-      }
-    });
+  constructor(private towerConfigService: TowerConfigService, private appService: AppService) {
   }
 
   ngOnInit() {
+    this.initialiseInvites();
+  }
+
+
+  initialiseInvites() {
     this.trackerId = this.appService.getTrackerId();
     this.towerNo = this.appService.getTowerNo();
 
     this.towerConfig = this.towerConfigFn();
-
+    console.log(this.towerNo);
+    console.log(this.appService.getTowerDetails(this.towerNo));
     if (this.appService.getTowerDetails(this.towerNo) === undefined) {
       console.log('From Database');
       this.towerConfigService.getTowerDetail(this.trackerId, this.towerNo).subscribe((detail) => {
         if (detail.status === true) {
           this.towerConfig = detail.payload;
+          console.log('found');
         }
         this.appService.setTowerDetails(this.towerConfig, this.towerNo);
+        console.log(this.towerNo);
       });
     } else {
       console.log('From Object');
@@ -49,7 +50,7 @@ export class TowerConfigComponent implements OnInit {
     if (this.towerNo === 1) {
       this.appService.setPrevUrl('soc/' + this.trackerId + '/detail/');
     } else {
-      this.appService.setPrevUrl('/soc/' + this.trackerId + '/tower/' + (this.towerNo - 1) + '/config');
+      this.appService.setPrevUrl('/soc/' + this.trackerId + '/tower/' + (this.towerNo - 1) + '/scaffolding&civil');
     }
 
     this.appService.setNextUrl('soc/' + this.trackerId + '/tower/' + this.towerNo + '/series/1/group/1');

@@ -10,9 +10,6 @@ import { SocietyDetailsService } from './society-details.service';
 })
 
 
-
-
-
 export class SocietyDetailsComponent implements OnInit {
 
   societyDetails: SocietyDetail;
@@ -22,7 +19,6 @@ export class SocietyDetailsComponent implements OnInit {
 
   constructor(private societyDetailService: SocietyDetailsService, private appService: AppService) {
     this.societyDetails = this.societyDetail();
-
   }
 
   societyDetail() {
@@ -44,6 +40,7 @@ export class SocietyDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.trackerId = this.appService.getTrackerId();
+
     this.appService.setPrevUrl('/list');
     this.appService.setNextUrl('soc/' + this.trackerId + '/tower/1/config');
 

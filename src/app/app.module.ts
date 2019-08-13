@@ -19,6 +19,7 @@ import { MeterByFloorService } from './meter-by-floor/meter-by-floor.service';
 import { PrevNextComponent } from './prev-next/prev-next.component';
 import { AppService } from './app-service';
 import { ScaffoldingCivilWorkComponent } from './scaffolding-civil-work/scaffolding-civil-work.component';
+import { CommonSupplyComponent } from './common-supply/common-supply.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ScaffoldingCivilWorkComponent } from './scaffolding-civil-work/scaffold
     YStrainerComponent,
     TowerConfigComponent,
     PrevNextComponent,
-    ScaffoldingCivilWorkComponent
+    ScaffoldingCivilWorkComponent,
+    CommonSupplyComponent
   ],
   imports: [
     BrowserModule,

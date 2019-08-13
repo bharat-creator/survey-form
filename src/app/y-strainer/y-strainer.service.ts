@@ -17,13 +17,7 @@ export class YStrainerService {
     }
 
     getYStrainerDetail(trackerId: number, towerNo: number): any {
-    //  return this.network.getData('http://stg-eclipse2.nuclious.in/spi/mbf/detail/' + trackerId + '/' + towerNo);
-        const payloadData = { yStrainer: this.rowOfYstrainer, additionalItems: this.rowOfItems };
-        const data = {
-            status: true,
-            payload: payloadData
-        }
-        return Observable.of(data);
+       return this.network.getData('http://stg-eclipse2.nuclious.in/spi/ystrainer/' + trackerId + '/' + towerNo);
     }
 
     postYStrainerDetail(value: any, trackerIdNum: number, towerNum: number) {
@@ -32,7 +26,7 @@ export class YStrainerService {
             towerNo: towerNum,
             payload: value
         };
-        //return this.network.postData('http://stg-eclipse2.nuclious.in/spi/mbf-detail/save', data);
-        return Observable.of(true);
+        return this.network.postData('http://stg-eclipse2.nuclious.in/spi/ystrainer/save', data);
+        //return Observable.of(true);
     }
 }

@@ -37,8 +37,8 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   navigationSubscription: any;
 
   constructor(private parent: AppComponent, private mtrbyflr: MeterByFloorService,
-    private towerConfigService: TowerConfigService, private appService: AppService,
-    private router: Router) {
+          private towerConfigService: TowerConfigService, private appService: AppService,
+          private router: Router) {
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {
@@ -81,6 +81,7 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
 
   afterFloorNoFn() {
     this.noOfFloors = this.appService.getNoOfFloors(this.towerNo);
+    console.log("No Of Floor" + this.noOfFloors);
     this.dropDowmFlatLogic();
     if (this.appService.getGroupDataFromObj() === undefined) {
       this.mtrbyflr.getMeterByFloorDetail(this.trackerId, this.towerNo, this.seriesNo, this.groupNo).subscribe((detail) => {

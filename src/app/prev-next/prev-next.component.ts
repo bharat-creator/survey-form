@@ -1,8 +1,8 @@
+import { Observable } from 'rxjs/Observable';
 import { SocietyDetailsService } from './../society-details/society-details.service';
 import { AppService } from './../app-service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Observable, observable } from 'rxjs';
 import { TowerConfigService } from '../tower-config/tower-config.service';
 import { MeterByFloorService } from '../meter-by-floor/meter-by-floor.service';
 import { YStrainerService } from '../y-strainer/y-strainer.service';
@@ -40,7 +40,13 @@ export class PrevNextComponent implements OnInit {
       }
 
       this.towerNo = parseInt(params.get('towerNo'), 10);
-      this.appService.setTowerNo(Number(this.towerNo));
+      if (isNaN(this.towerNo)) {
+        if (this.appService.getTowerNo() === undefined) {
+          this.appService.setTowerNo(1);
+        }
+      } else {
+        this.appService.setTowerNo(Number(this.towerNo));
+      }
 
       this.seriesNo = parseInt(params.get('seriesNo'), 10);
       this.appService.setSeriesNo(Number(this.seriesNo));
@@ -74,18 +80,18 @@ export class PrevNextComponent implements OnInit {
     const urlArr = this.router.url.split('/');
     if (urlArr[3] === 'detail') {
       const value = this.appService.getSocietyDetails();
-      // console.log(value);
+      console.log(value);
       return this.societyDetailService.postSocietyDetails(value, this.trackerId);
     } else if (urlArr[3] === 'tower' && urlArr[5] === 'config') {
       const value = this.appService.getTowerDetails(this.towerNo);
-      //console.log(value);
+      console.log(this.appService.getSurveyFormObj());
       return this.towerConfig.postTowerConfigDetails(value, this.trackerId, this.towerNo);
     } else if (urlArr[3] === 'tower' && urlArr[5] === 'series') {
       const value = this.appService.getGroupDetails();
       console.log(value);
       return this.mtrbyflr.postGroupDetails(value, this.trackerId, this.towerNo, this.seriesNo, this.groupNo);
     } else if (urlArr[3] === 'tower' && urlArr[5] === 'ystrainer') {
-      const value = this.appService.getYStrainerDetails();
+      const value = this.appService.getYStrainerDetails(this.towerNo);
       console.log(value);
       return this.yStrainerService.postYStrainerDetail(value, this.trackerId, this.towerNo);
     } else if (urlArr[3] === 'tower' && urlArr[5] === 'scaffolding&civil') {

@@ -6,13 +6,13 @@
           <a class="nav-item nav-link" routerLink="/soc/{{trackerId}}/detail">Society Details </a>
         </div>
         <div class="navbar-nav flex-column" [class.speech-bubble]="stepcss == 'meter_by_floor'">
-          <a class="nav-item nav-link" routerLink="/soc/{{trackerId}}/tower/1/config">Meter By Floor</a>
+          <a class="nav-item nav-link" routerLink="/soc/{{trackerId}}/tower/{{towerNo}}/config">Meter By Floor</a>
         </div>
         <div class="navbar-nav flex-column" [class.speech-bubble]="stepcss == 'y_strainer'">
-          <a class="nav-item nav-link" routerLink="/soc/{{trackerId}}/tower/1/ystrainer">Y - Stainer</a>
+          <a class="nav-item nav-link" routerLink="/soc/{{trackerId}}/tower/{{towerNo}}/ystrainer">Y - Stainer</a>
         </div>
         <div class="navbar-nav flex-column" [class.speech-bubble]="stepcss == 'scaffolding_civil'">
-            <a class="nav-item nav-link" routerLink="/soc/{{trackerId}}/tower/1/scaffolding&civil">Scaffolding & Civil Work</a>
+            <a class="nav-item nav-link" routerLink="/soc/{{trackerId}}/tower/{{towerNo}}/scaffolding&civil">Scaffolding & Civil Work</a>
         </div>
         <div class="navbar-nav flex-column">
             <a class="nav-item nav-link" routerLink="/page1">Common & Supply</a>
