@@ -152,7 +152,7 @@ export class AppService {
     }
   }
 
-  getAllTowersDetails(index: number): TowerGroup[] {
+  getAllTowersDetails(): TowerGroup[] {
     return this.surveyForm.towers;
   }
 
@@ -181,16 +181,16 @@ export class AppService {
     return this.flatgrp;
   }
 
-  getGroupDataFromObj(): FlatGrp {
-    const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === this.towerNo);
+  getGroupDataFromObj(towerNum: number, seriesNum: number, groupNum: number): FlatGrp {
+    const towerIndex = this.surveyForm.towers.findIndex(x => x.towerNo === towerNum);
     if (towerIndex > -1) {
       const seriesLength = this.surveyForm.towers[towerIndex].seriesGrp.length;
       if (seriesLength === 0) {
         return undefined;
       } else {
-        const seriesIndex = this.surveyForm.towers[towerIndex].seriesGrp.findIndex(x => x.seriesNo === this.seriesNo);
+        const seriesIndex = this.surveyForm.towers[towerIndex].seriesGrp.findIndex(x => x.seriesNo === seriesNum);
         if (seriesIndex > -1) {
-          const groupIndex = this.surveyForm.towers[towerIndex].seriesGrp[seriesIndex].flatGrp.findIndex(x => x.groupNo === this.groupNo);
+          const groupIndex = this.surveyForm.towers[towerIndex].seriesGrp[seriesIndex].flatGrp.findIndex(x => x.groupNo === groupNum);
           if (groupIndex > -1) {
             return this.surveyForm.towers[towerIndex].seriesGrp[seriesIndex].flatGrp[groupIndex];
           } else {

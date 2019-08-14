@@ -9,36 +9,100 @@
                 <div class="card">
                   <div class="card-header">
                     <a class="card-link" data-toggle="collapse" href="#collapseOne">
-                      Collapsible Group Item #1
+                      Society Details #1
                     </a>
                   </div>
                   <div id="collapseOne" class="collapse show" data-parent="#accordion">
                     <div class="card-body">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      <div class="row m-0">
+                        <div class="col-sm-6">
+                          <p><b>Society Name:</b> {{societyDetails.name}} </p>
+                          <p><b>Society Address:</b> {{societyDetails.address}} </p>
+                          <p><b>Pin Code: </b> {{societyDetails.pincode}}</p>
+                          <p><b>City:</b> {{societyDetails.city}} <b>State:</b> {{societyDetails.state}}</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p><b>FM Name:</b> {{societyDetails.fmName}} </p>
+                            <p><b>FM Phone:</b> {{societyDetails.fmPhone}} </p>
+                            <p><b>Plumber Name:</b> {{societyDetails.plmbrName}} </p>
+                            <p><b>Plumber Phone:</b>  {{societyDetails.plmbrPhone}} </p>
+                        </div> 
+                      </div>
+                      <div class="row m-0 mt-1">
+                          <div class="col-sm-4">
+                              <p><b>Total Apartment:</b> {{societyDetails.noOfApts}} </p>
+                          </div>
+                          <div class="col-sm-4">
+                              <p><b>Total Tower:</b> {{societyDetails.noOfTowers}} </p>
+                          </div>
+                          <div class="col-sm-4">
+                              <p><b>Survey Raised Tower:</b> {{societyDetails.noOfTowersForSurvey}} </p>
+                          </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="card">
+                <ng-container>
+                <div *ngFor="let t of towerArr; let i=index" class="card">
                   <div class="card-header">
-                    <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
-                    Collapsible Group Item #2
+                    <a class="collapsed card-link" data-toggle="collapse" href="#collapseT{{i+1}}">
+                    Tower: {{t.towerDetails.towerName}} #{{i+1}}
                   </a>
                   </div>
-                  <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                  <div id="collapseT{{i+1}}" class="collapse" data-parent="#accordion">
                     <div class="card-body">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </div>
+                        <div class="row m-0">
+                            <div class="col-sm-4"> 
+                              <b>Tower Name:</b> {{t.towerDetails.towerName}}
+                            </div>
+                            <div class="col-sm-4">
+                              <b>No. Of Floor:</b> {{t.towerDetails.noOfFloor}}
+                            </div>
+                            <div class="col-sm-4">
+                                <b>No. Of Series:</b> {{t.towerDetails.noOfSeries}}
+                            </div> 
+                        </div>
+                        <div class="row m-0 border-between">
+                            <div *ngFor="let s of t.towerDetails.plumbingStructure" class="col-4">
+                                <div class="row m-0"><b>{{s.name}}</b></div>
+                                <div class="row m-0">
+                                  <div class="col-6 p-0">
+                                      Type: {{s.type}}
+                                  </div>
+                                  <div class="col-6 p-0">
+                                      Size: {{s.size}}
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-0 mt-2">
+                          <div class="col-sm-12">
+                              <div class="row m-0">
+                                <div class="col-sm-6 mt-1 p-0">
+                                  dfgdfdgfgfd
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                    </div>                  
                   </div>
                 </div>
+              </ng-container>
                 <div class="card">
                   <div class="card-header">
                     <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
-                      Collapsible Group Item #3
-                    </a>
+                      Common & Supply</a>
                   </div>
                   <div id="collapseThree" class="collapse" data-parent="#accordion">
                     <div class="card-body">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      <div class="row m-0 mt-1">
+                        <div class="col-sm-6">
+                          <h6>Common Side</h6>
+                        </div>
+                        <div class="col-sm-6">
+                          <h6>Supply Side</h6>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

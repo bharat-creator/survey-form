@@ -37,8 +37,8 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
   navigationSubscription: any;
 
   constructor(private parent: AppComponent, private mtrbyflr: MeterByFloorService,
-          private towerConfigService: TowerConfigService, private appService: AppService,
-          private router: Router) {
+              private towerConfigService: TowerConfigService, private appService: AppService,
+              private router: Router) {
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {
@@ -61,7 +61,6 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
     this.selectedInlet = [];
     this.flatGrp = this.FlatGrp();
 
-
     if (this.appService.getNoOfFloors(this.towerNo) === undefined) {
 
       this.towerConfigService.getTowerDetail(this.trackerId, this.towerNo).subscribe((detail) => {
@@ -83,7 +82,7 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
     this.noOfFloors = this.appService.getNoOfFloors(this.towerNo);
     console.log("No Of Floor" + this.noOfFloors);
     this.dropDowmFlatLogic();
-    if (this.appService.getGroupDataFromObj() === undefined) {
+    if (this.appService.getGroupDataFromObj(this.towerNo, this.seriesNo, this.groupNo) === undefined) {
       this.mtrbyflr.getMeterByFloorDetail(this.trackerId, this.towerNo, this.seriesNo, this.groupNo).subscribe((detail) => {
         if (detail.status === true) {
           this.flatGrp = detail.payload;
@@ -97,7 +96,7 @@ export class MeterByFloorComponent implements OnInit, OnDestroy {
         this.updateSelectedArr();
       });
     } else {
-      this.flatGrp = this.appService.getGroupDataFromObj();
+      this.flatGrp = this.appService.getGroupDataFromObj(this.towerNo, this.seriesNo, this.groupNo);
       this.flatLoop(this.flatGrp.from, this.flatGrp.to);
       this.onFlatGroupChange();
       this.updateSelectedArr();
