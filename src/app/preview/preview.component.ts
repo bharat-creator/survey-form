@@ -1,3 +1,4 @@
+import { SeriesGrp } from './../meter-by-floor/series-group';
 import { MeterByFloorService } from './../meter-by-floor/meter-by-floor.service';
 import { TowerConfigService } from './../tower-config/tower-config.service';
 import { TowerConfig } from './../tower-config/tower-config';
@@ -23,7 +24,7 @@ export class PreviewComponent implements OnInit {
 
 
   constructor(private appService: AppService, private societyDetailService: SocietyDetailsService,
-              private towerConfigService: TowerConfigService, private mtrbyflr: MeterByFloorService) {
+    private towerConfigService: TowerConfigService, private mtrbyflr: MeterByFloorService) {
     this.towerArr = [];
     this.societyDetails = {
       name: '',
@@ -57,7 +58,6 @@ export class PreviewComponent implements OnInit {
   ngOnInit() {
     this.trackerId = this.appService.getTrackerId();
     this.SocietyDetail();
-    console.log(this.appService.getAllTowersDetails());
   }
 
   SocietyDetail() {
@@ -73,6 +73,10 @@ export class PreviewComponent implements OnInit {
       this.towerNo = 1;
       this.towerConfigDetail(this.towerNo);
     }
+
+    this.towerConfigService.getCompleteTowerDetail(2, 1).subscribe((detail) => {
+      console.log(detail);
+    });
   }
 
   // towerLoop() {
@@ -91,10 +95,10 @@ export class PreviewComponent implements OnInit {
           this.pushTowerConfig(towerNo, towerConfig);
           if (towerNo < this.societyDetails.noOfTowersForSurvey) {
             this.towerNo += 1;
-            console.log('TowerNo' + this.towerNo);
+            // console.log('TowerNo' + this.towerNo);
             this.towerConfigDetail(this.towerNo);
           } else {
-            console.log('End On Database');
+            // console.log('End On Database');
           }
         }
       });
@@ -102,12 +106,12 @@ export class PreviewComponent implements OnInit {
       console.log('From Object');
       const towerConfig = this.appService.getTowerDetails(towerNo);
       this.pushTowerConfig(towerNo, towerConfig);
-      if (towerNo < this.societyDetails.noOfTowersForSurvey){
+      if (towerNo < this.societyDetails.noOfTowersForSurvey) {
         this.towerNo += 1;
-        console.log('TowerNo' + this.towerNo);
+        // console.log('TowerNo' + this.towerNo);
         this.towerConfigDetail(this.towerNo);
       } else {
-        console.log('End On Object');
+        // console.log('End On Object');
       }
     }
   }
@@ -116,11 +120,11 @@ export class PreviewComponent implements OnInit {
     const data = {
       towerNo: towerNum,
       towerDetails: value,
-      seriesGrp: [],
+      seriesGrp: this.seriesObj(),
       yStrainer: {}
     };
     this.towerArr.push(data);
-    console.log(this.towerArr);
+    // console.log(this.towerArr);
   }
 
   seriesDetailGroup() {
@@ -137,6 +141,128 @@ export class PreviewComponent implements OnInit {
     } else {
       const flatGrp = this.appService.getGroupDataFromObj(towerNo, seriesNo, groupNo);
     }
+  }
+
+  seriesObj(): SeriesGrp[] {
+    const seriesarr = [
+      {
+        seriesNo: 1,
+        flatGrp: [
+          {
+            flatType: '2BHK',
+            from: 1,
+            groupNo: 1,
+            jointFlat: '',
+            jointSeries: 0,
+            to: 2101,
+            inletGrp: [
+              {
+                inlet: 'S',
+                type: 'cold',
+                meter: 'DN-15'
+              },
+              {
+                inlet: 'B1&B2',
+                type: 'cold',
+                meter: 'DN-15'
+              }
+            ]
+          },
+          {
+            flatType: '2BHK',
+            from: 2201,
+            groupNo: 2,
+            inletGrp: [
+              {
+                inlet: 'S',
+                type: 'cold',
+                meter: 'DN-15'
+              },
+              {
+                inlet: 'K&M',
+                type: 'cold',
+                meter: 'DN-15'
+              }
+            ],
+            jointFlat: '',
+            jointSeries: 0,
+            to: 3301
+          }
+        ]
+      },
+      {
+        seriesNo: 2,
+        flatGrp: [
+          {
+            flatType: '3BHK',
+            from: 2,
+            groupNo: 1,
+            inletGrp: [
+              {
+                inlet: 'B3',
+                type: 'cold',
+                meter: 'DN-15'
+              },
+              {
+                inlet: 'B1&B2',
+                type: 'cold',
+                meter: 'DN-15'
+              }
+            ],
+            jointFlat: '',
+            jointSeries: 0,
+            to: 1902
+          },
+          {
+            flatType: '4BHK',
+            from: 2002,
+            groupNo: 2,
+            inletGrp: [
+              {
+                inlet: 'B3',
+                type: 'cold',
+                meter: 'DN-15'
+              },
+              {
+                inlet: 'S',
+                type: 'cold',
+                meter: 'DN-15'
+              },
+              {
+                inlet: 'M',
+                type: 'cold',
+                meter: 'DN-15'
+              }
+            ],
+            jointFlat: '',
+            jointSeries: 0,
+            to: 2502
+          },
+          {
+            flatType: '3BHK',
+            from: 2602,
+            groupNo: 3,
+            inletGrp: [
+              {
+                inlet: 'S',
+                type: 'cold',
+                meter: 'DN-15'
+              },
+              {
+                inlet: 'K&M',
+                type: 'cold',
+                meter: 'DN-15'
+              }
+            ],
+            jointFlat: '',
+            jointSeries: 0,
+            to: 3302
+          }
+        ]
+      }
+    ];
+
+    return seriesarr;
   }
 
 }

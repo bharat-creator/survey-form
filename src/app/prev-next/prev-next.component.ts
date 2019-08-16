@@ -7,6 +7,7 @@ import { TowerConfigService } from '../tower-config/tower-config.service';
 import { MeterByFloorService } from '../meter-by-floor/meter-by-floor.service';
 import { YStrainerService } from '../y-strainer/y-strainer.service';
 import { CommonMtrService } from '../common/common.service';
+import { ModalService } from '../modal/modal.service';
 
 @Component({
   selector: 'app-prev-next',
@@ -22,11 +23,12 @@ export class PrevNextComponent implements OnInit {
   groupNo: number;
   prevUrl: string;
   nextUrl: string;
+  urlArr: Array<string>;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private appService: AppService,
               private societyDetailService: SocietyDetailsService, private towerConfig: TowerConfigService,
               private mtrbyflr: MeterByFloorService, private yStrainerService: YStrainerService,
-              private commonMtrService: CommonMtrService) {
+              private commonMtrService: CommonMtrService, private modalService: ModalService ) {
 
     this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
       this.trackerId = parseInt(params.get('trackerId'), 10);
@@ -59,6 +61,20 @@ export class PrevNextComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.urlArr = this.router.url.split('/');
+  }
+
+  openModal(id: string) {
+    this.modalService.open(id);
+  }
+
+  closeModal(id: string) {
+    this.modalService.close(id);
+  }
+
+  nextFromModal() {
+    this.nextUrl = this.appService.getNextUrl();
+    this.router.navigate([this.nextUrl]);
   }
 
   prevBtn() {
@@ -68,9 +84,14 @@ export class PrevNextComponent implements OnInit {
 
   nextBtn() {
     this.save().subscribe((detail) => {
-      //console.log(detail);
+      // console.log(detail);
       this.nextUrl = this.appService.getNextUrl();
-      this.router.navigate([this.nextUrl]);
+      if ((this.urlArr[3] === 'tower' && this.urlArr[5] === 'scaffolding&civil')
+          && (this.towerNo >= 1 && this.towerNo < this.appService.getNoOfTowersForSurvey())) {
+        this.openModal('custom-modal-1');
+      } else {
+        this.router.navigate([this.nextUrl]);
+      }
     },
     (error) => {
       console.log(error);
@@ -79,38 +100,38 @@ export class PrevNextComponent implements OnInit {
 
 
   save(): Observable<any> {
-    const urlArr = this.router.url.split('/');
-    if (urlArr[3] === 'detail') {
+    //const urlArr = this.router.url.split('/');
+    if (this.urlArr[3] === 'detail') {
       const value = this.appService.getSocietyDetails();
       console.log(value);
       return this.societyDetailService.postSocietyDetails(value, this.trackerId);
-    } else if (urlArr[3] === 'tower' && urlArr[5] === 'config') {
+    } else if (this.urlArr[3] === 'tower' && this.urlArr[5] === 'config') {
       const value = this.appService.getTowerDetails(this.towerNo);
       console.log(this.appService.getSurveyFormObj());
       return this.towerConfig.postTowerConfigDetails(value, this.trackerId, this.towerNo);
-    } else if (urlArr[3] === 'tower' && urlArr[5] === 'series') {
+    } else if (this.urlArr[3] === 'tower' && this.urlArr[5] === 'series') {
       const value = this.appService.getGroupDetails();
       console.log(value);
       return this.mtrbyflr.postGroupDetails(value, this.trackerId, this.towerNo, this.seriesNo, this.groupNo);
-    } else if (urlArr[3] === 'tower' && urlArr[5] === 'ystrainer') {
+    } else if (this.urlArr[3] === 'tower' && this.urlArr[5] === 'ystrainer') {
       const value = this.appService.getYStrainerDetails(this.towerNo);
       console.log(value);
       return this.yStrainerService.postYStrainerDetail(value, this.trackerId, this.towerNo);
-    } else if (urlArr[3] === 'tower' && urlArr[5] === 'scaffolding&civil') {
+    } else if (this.urlArr[3] === 'tower' && this.urlArr[5] === 'scaffolding&civil') {
       return Observable.of(true);
-    } else if (urlArr[3] === 'common') {
+    } else if (this.urlArr[3] === 'common') {
       const value = this.appService.getCommonMtrDetails();
       console.log(value);
       // return this.commonMtrService.postDetail(value, this.trackerId);
       return Observable.of(true);
-    } else if (urlArr[3] === 'supply') {
+    } else if (this.urlArr[3] === 'supply') {
       const value = this.appService.getSupplyMtrDetails();
       console.log(value);
       // return this.supplyMtrService.postDetail(value, this.trackerId);
       return Observable.of(true);
-    } else if (urlArr[3] === 'safetyquestions') {
+    } else if (this.urlArr[3] === 'safetyquestions') {
       return Observable.of(true);
-    } else if (urlArr[3] === 'customerinput') {
+    } else if (this.urlArr[3] === 'customerinput') {
       return Observable.of(true);
     }
     // return false;

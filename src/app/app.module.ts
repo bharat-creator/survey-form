@@ -26,6 +26,7 @@ import { SupplyComponent } from './supply/supply.component';
 import { SafetyQuestionsComponent } from './safety-questions/safety-questions.component';
 import { CustomerInputComponent } from './customer-input/customer-input.component';
 import { PreviewComponent } from './preview/preview.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { PreviewComponent } from './preview/preview.component';
     SupplyComponent,
     SafetyQuestionsComponent,
     CustomerInputComponent,
-    PreviewComponent
+    PreviewComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

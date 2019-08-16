@@ -22,6 +22,7 @@ export class AppService {
   noOfFloor: number;
   noOfSeries: number;
   flatgrp: FlatGrp;
+  noOfTowerForSurvey: number;
 
   constructor() {
   }
@@ -222,6 +223,18 @@ export class AppService {
       }
     } else {
       return undefined;
+    }
+  }
+
+  setNoOfTowersForSurvey(value: number) {
+    this.noOfTowerForSurvey = value;
+  }
+
+  getNoOfTowersForSurvey() {
+    if (this.surveyForm.societyDetails !== undefined) {
+      return this.surveyForm.societyDetails.noOfTowersForSurvey;
+    } else {
+       return undefined;
     }
   }
 

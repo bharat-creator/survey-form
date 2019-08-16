@@ -4,3 +4,27 @@
     <button class="btn btn-sm btn-outline-info float-right" (click)="nextBtn()">Save & Next</button>
   </div>
 </div>
+<app-modal id="custom-modal-1">
+    <div class="container">
+        <div class="col-sm-12">
+            <h6>Copy Tower Details</h6>
+            <div class="row">
+                <div class="form-group col-8 col-sm-10 mt-1">
+                    <label for="fromTower" class="col-form-label">From Tower: </label>
+                    <select class="form-control" id="fromTower">
+                        <option value="1">Tower 1</option>
+                        <option value="2">Tower 2</option>
+                    </select>
+                </div>
+                <div class="form-group col-4 col-sm-2 mt-1">
+                    <label for="copyBtn" class="col-form-label">&nbsp;</label>
+                    <button id="copyBtn" class="form-control btn btn-primary">Copy</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <button class="btn-outline-primary" (click)="nextFromModal()">Next</button>
+            <button class="btn-outline-primary" (click)="closeModal('custom-modal-1')">Close</button>
+        </div>
+    </div>
+</app-modal>

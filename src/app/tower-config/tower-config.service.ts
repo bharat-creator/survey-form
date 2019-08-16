@@ -63,4 +63,8 @@ export class TowerConfigService {
     console.log(data);
     return this.network.postData('http://stg-eclipse2.nuclious.in/spi/tower-detail/save', data);
   }
+
+  getCompleteTowerDetail(trackerId: number, towerNo: number): Observable<any> {
+    return this.network.getData('http://stg-eclipse2.nuclious.in/spi/complete/tower-detail/' + trackerId + '/' + towerNo);
+  }
 }
